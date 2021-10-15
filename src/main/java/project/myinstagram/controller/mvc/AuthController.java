@@ -43,7 +43,7 @@ public class AuthController {
                 log.error(error.getDefaultMessage());
                 log.error(userDTO.toString());
             }
-            throw new ValidationException("회원가입 에러", errorMap);
+            throw new ValidationException("회원가입 에러!", errorMap);
         }else{
             authService.signUp(userDTO);
             return "redirect:/auth/signin";
