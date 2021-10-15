@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Photogram</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
         integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
@@ -25,11 +26,13 @@
                          
                          <!--회원가입 인풋-->
                         <form class="login__input" action="/auth/signup" method="post">
-                            <input type="text" name="username" placeholder="유저네임" required="required" />
+                            <input type="text" id="userId" name="username" placeholder="아이디" required="required" />
+                            <button type="button" id="idCheck" onclick="button_twinCheck();">중복확인</button>
+                            <br/>
                             <input type="password" name="password" placeholder="패스워드" required="required" />
                             <input type="email" name="email" placeholder="이메일" required="required" />
                             <input type="text" name="name" placeholder="이름" required="required" />
-                            <button>가입</button>
+                            <button type="button" id="ifIdCheck" onclick="ifIdCheckSubmit();">가입</button>
                         </form>
                         <!--회원가입 인풋end-->
                     </div>
@@ -46,6 +49,6 @@
             </section>
         </main>
     </div>
+<script th:inline="javascript" th:src="@{/js/signup.js}"></script>
 </body>
-
 </html>

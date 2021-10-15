@@ -1,16 +1,12 @@
 package project.myinstagram.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import project.myinstagram.dto.UserDTO;
 
 import javax.persistence.*;
 
 @Entity
-@Getter
-@Builder
+@Getter @Setter @Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class User extends BaseEntity{
@@ -31,6 +27,8 @@ public class User extends BaseEntity{
     @Column(nullable = false)
     private String email;
 
+    private String profileImage;
+
     private String sex;
 
     private String bio;
@@ -38,6 +36,8 @@ public class User extends BaseEntity{
     private String phoneNumber;
 
     private String role;
+    
+    private String website;
 
     public UserDTO toDTO(){
         return UserDTO.builder()
@@ -50,6 +50,8 @@ public class User extends BaseEntity{
                 .bio(this.bio)
                 .phoneNumber(this.phoneNumber)
                 .role(this.role)
+                .profileImage(this.profileImage)
+                .website(this.website)
                 .build();
     }
 }

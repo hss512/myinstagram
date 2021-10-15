@@ -10,7 +10,7 @@ import project.myinstagram.repository.UserRepository;
 
 @Service
 @RequiredArgsConstructor
-public class PrincipalService implements UserDetailsService {
+public class UserDetailsServiceImpl implements UserDetailsService {
 
     private final UserRepository userRepository;
 
@@ -24,7 +24,7 @@ public class PrincipalService implements UserDetailsService {
             return null;
         }else{
             System.out.println("로그인 성공");
-            return new PrincipalDetails(findUser.toDTO());
+            return new CustomUserDetails(findUser.toDTO());
         }
     }
 }

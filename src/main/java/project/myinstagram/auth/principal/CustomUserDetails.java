@@ -9,13 +9,13 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 @Data
-public class PrincipalDetails implements UserDetails {
+public class CustomUserDetails implements UserDetails {
 
     private static final long serialVersionUID = 1L;
 
     private UserDTO userDTO;
 
-    public PrincipalDetails(UserDTO userDTO){
+    public CustomUserDetails(UserDTO userDTO){
         this.userDTO = userDTO;
     }
 
@@ -23,7 +23,7 @@ public class PrincipalDetails implements UserDetails {
     public Collection<? extends GrantedAuthority> getAuthorities() {
 
         Collection<GrantedAuthority> collection = new ArrayList<>();
-        collection.add(() -> {return userDTO.getRole();});
+        collection.add(() -> userDTO.getRole());
         return collection;
     }
 

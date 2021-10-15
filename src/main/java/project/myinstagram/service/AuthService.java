@@ -5,6 +5,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import project.myinstagram.dto.UserDTO;
+import project.myinstagram.entity.User;
 import project.myinstagram.repository.UserRepository;
 
 @Service
@@ -21,4 +22,16 @@ public class AuthService{
         userDTO.setRole("ROLE_USER");
         userRepository.save(userDTO.toEntity());
     }
+
+    @Transactional(readOnly = true)
+    public int idCheck(String userId){
+
+        User findUser = userRepository.findByUsername(userId);
+
+        if (findUser == null) {
+            return 0;
+        }else
+            return 1;
+    }
+
 }

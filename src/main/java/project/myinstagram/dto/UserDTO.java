@@ -30,10 +30,18 @@ public class UserDTO {
 
     @NotBlank @Email(message = "이메일 양식을 지켜주세요")
     private String email;
-    private String sex;
-    private String bio;
-    private String phoneNumber;
+
     private String role;
+
+    private String profileImage;
+
+    private String sex;
+
+    private String bio;
+
+    private String phoneNumber;
+
+    private String website;
 
     public User toEntity(){
         return User.builder()
@@ -42,10 +50,26 @@ public class UserDTO {
                 .name(this.name)
                 .password(this.password)
                 .email(this.email)
-                .sex(this.sex)
-                .bio(this.bio)
-                .phoneNumber(this.phoneNumber)
                 .role(this.role)
+                .build();
+    }
+
+    public UserDTO userDTO(){
+        return UserDTO.builder()
+                .id(this.id)
+                .username(this.username)
+                .name(this.name)
+                .build();
+    }
+
+    public UserDTO profileUserDTO(){
+        return UserDTO.builder()
+                .username(this.username)
+                .name(this.name)
+                .email(this.email)
+                .role(this.role)
+                .bio(this.bio)
+                .website(this.website)
                 .build();
     }
 
