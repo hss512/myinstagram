@@ -62,12 +62,22 @@ public class UserDTO {
                 .build();
     }
 
-    public UserDTO profileUserDTO(){
+    public UserDTO updateUserProfileDTO(){
         return UserDTO.builder()
                 .username(this.username)
                 .name(this.name)
                 .email(this.email)
                 .role(this.role)
+                .bio(this.bio)
+                .website(this.website)
+                .build();
+    }
+
+    public UserDTO pageUserDTO(){
+        return UserDTO.builder()
+                .id(this.id)
+                .username(this.username)
+                .name(this.name)
                 .bio(this.bio)
                 .website(this.website)
                 .build();

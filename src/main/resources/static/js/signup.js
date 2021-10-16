@@ -17,6 +17,7 @@ function button_twinCheck(){
         console.log(res);
         if(res.data === 1) {
             alert('중복된 아이디입니다')
+            ifIdCheck = 2;
         }else {
             alert('사용 가능한 아이디입니다')
             $("#userId").prop('readonly', true)
@@ -29,7 +30,10 @@ function button_twinCheck(){
 function ifIdCheckSubmit(){
     if(ifIdCheck === 0){
         alert("아이디 중복확인을 클릭하지 않았습니다!")
-    }else{
+    }else if(ifIdCheck === 1){
         $("#ifIdCheck").attr("type", "submit");
+    }else{
+        alert("중복된 아이디입니다")
+        ifIdCheck = 0;
     }
 }

@@ -9,15 +9,19 @@
 
 		<!--유저이미지-->
 		<div class="profile-left">
-			<div class="profile-img-wrap story-border"
-				onclick="popup('.modal-image')">
+			<th:block th:if="${userDetails.id} == ${pageUserId}">
+			<div class="profile-img-wrap story-border" onclick="popup('.modal-image')">
+			</th:block>
+			<th:block th:unless="${userDetails.id} == ${pageUserId}">
+			<div class="profile-img-wrap story-border">
+			</th:block>
 				<form id="userProfileImageForm">
 					<input type="file" name="profileImageFile" style="display: none;"
 						id="userProfileImageInput" />
 				</form>
 
 				<img class="profile-image" src="#"
-					onerror="this.src='/images/person.jpeg'" id="userProfileImage" />
+					onerror="this.src='/images/non.jpg'" id="userProfileImage" />
 			</div>
 		</div>
 		<!--유저이미지end-->
@@ -26,9 +30,12 @@
 		<div class="profile-right">
 			<div class="name-group">
 				<h2>[[${userDetails.name}]]</h2>
-
-				<button class="cta" onclick="location.href='/image/upload'">사진등록</button>
-				<button class="cta" onclick="toggleSubscribe(this)">구독하기</button>
+				<button class="cta" th:onclick="'location.href=\''+ @{/image/upload}+'\';'">사진등록</button>
+				<th:block th:if="${pageUserId} == ${userDetails.id}">
+				</th:block>
+				<th:block th:unless="${pageUserId} == ${userDetails.id}">
+					<button class="cta" onclick="toggleSubscribe(this)">구독하기</button>
+				</th:block>
 				<button class="modi" onclick="popup('.modal-info')">
 					<i class="fas fa-cog"></i>
 				</button>
@@ -36,9 +43,9 @@
 
 			<div class="subscribe">
 				<ul>
-					<li><a href=""> 게시물<span>3</span>
+					<li><a href=""> 게시물<span>[[${boardSize}]]</span>
 					</a></li>
-					<li><a href="javascript:subscribeInfoModalOpen();"> 구독정보<span>2</span>
+					<li><a href="javascript:subscribeInfoModalOpen();"> 구독정보<span>[[${subscribeSize}]]</span>
 					</a></li>
 				</ul>
 			</div>
@@ -111,7 +118,7 @@
 <div class="modal-image" onclick="modalImage()">
 	<div class="modal">
 		<p>프로필 사진 바꾸기</p>
-		<button onclick="profileImageUpload()">사진 업로드</button>
+		<button th:onclick="profileImageUpload(${})">사진 업로드</button>
 		<button onclick="closePopup('.modal-image')">취소</button>
 	</div>
 </div>

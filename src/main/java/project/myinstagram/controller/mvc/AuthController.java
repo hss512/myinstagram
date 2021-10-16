@@ -12,6 +12,7 @@ import project.myinstagram.dto.UserDTO;
 import project.myinstagram.exception.ValidationException;
 import project.myinstagram.service.AuthService;
 
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -45,7 +46,13 @@ public class AuthController {
             }
             throw new ValidationException("회원가입 에러!", errorMap);
         }else{
-            authService.signUp(userDTO);
+            try {
+                authService.signUp(userDTO);
+            }catch (Exception e) {
+                log.error(e.getMessage());
+                return "redirect:/auth/signup";
+            }
+
             return "redirect:/auth/signin";
         }
     }
