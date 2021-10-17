@@ -8,9 +8,8 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import project.myinstagram.auth.principal.CustomUserDetails;
 import project.myinstagram.dto.UserDTO;
 import project.myinstagram.dto.ValidateDTO;
@@ -46,5 +45,17 @@ public class UserApiController {
         userDetails.setUserDTO(updateUser);
 
         return new ResponseEntity<>(new ValidateDTO<>(1, "성공", updateUser.updateUserProfileDTO()), HttpStatus.OK);
+    }
+
+    @PutMapping("/userImage/{id}")
+    public ResponseEntity<?> userImageUpdate(MultipartFile profileImageFile,
+                                             @PathVariable Long id,
+                                             @AuthenticationPrincipal CustomUserDetails userDetails){
+
+        System.out.println("formData : " + profileImageFile);
+
+        userService.userImageUpdate(id, profileImageFile);
+
+        return new ResponseEntity<>(new ValidateDTO<>(), HttpStatus.OK);
     }
 }

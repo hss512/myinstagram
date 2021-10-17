@@ -4,9 +4,12 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 import project.myinstagram.dto.UserDTO;
 import project.myinstagram.entity.User;
 import project.myinstagram.repository.UserRepository;
+
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -30,5 +33,17 @@ public class UserService {
         findUser.setPhoneNumber(userDTO.getPhoneNumber());
 
         return findUser.toDTO();
+    }
+
+    @Transactional
+    public int userImageUpdate(Long id, MultipartFile profileImageFile) {
+
+        User findUser = userRepository.findById(id).get();
+
+        String originalFilename = profileImageFile.getOriginalFilename();
+
+        UUID uuid = UUID.randomUUID();
+
+        return 0;
     }
 }
