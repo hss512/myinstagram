@@ -2,6 +2,7 @@ package project.myinstagram.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import project.myinstagram.entity.Subscribe;
 import project.myinstagram.repository.SubscribeRepository;
 
@@ -9,6 +10,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class SubscribeService {
 
     private final SubscribeRepository subscribeRepository;

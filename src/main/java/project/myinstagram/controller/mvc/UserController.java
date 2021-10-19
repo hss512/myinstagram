@@ -6,7 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import project.myinstagram.auth.principal.CustomUserDetails;
+import project.myinstagram.principal.CustomUserDetails;
 import project.myinstagram.dto.UserDTO;
 import project.myinstagram.entity.Board;
 import project.myinstagram.entity.Subscribe;

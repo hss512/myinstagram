@@ -37,3 +37,7 @@ function ifIdCheckSubmit(){
         ifIdCheck = 0;
     }
 }
+
+function idCheck(obj){
+    // 아이디 특수문자 제한 로직 짜야 됨!
+}

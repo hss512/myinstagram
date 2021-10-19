@@ -83,4 +83,12 @@ public class UserDTO {
                 .build();
     }
 
+    public UserDTO subscribeUserDTO(){
+        return UserDTO.builder()
+                .id(this.id)
+                .username(this.username)
+                .name(this.name)
+                .profileImage(this.profileImage)
+                .build();
+    }
 }

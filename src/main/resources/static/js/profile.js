@@ -22,12 +22,39 @@ function toggleSubscribe(obj) {
 }
 
 // (2) 구독자 정보  모달 보기
-function subscribeInfoModalOpen() {
+function subscribeInfoModalOpen(userId) {
 	$(".modal-subscribe").css("display", "flex");
+
+	$.ajax({
+		url: "/api/subscribes/" + userId,
+		type: "get",
+		dataType: "json"
+	}).done(res=>{
+		console.log(res)
+		res.data.forEach((u)=>{
+			$("#subscribeModalList").append(getSubscribeModalItem(u));
+		})
+	}).fail(error=>{
+		console.log(error, '구독리스트 api 에러')
+	});
 }
 
-function getSubscribeModalItem() {
+function getSubscribeModalItem(obj) {
+	console.log("Subscribe List Console : " + obj.name);
+	let list =
+		'<div class="subscribe__item" id="subscribeModalItem-1">' +
+		'<div class="subscribe__img">' +
+		'<img src="/study/' + obj.profileImage + '">' +
+		'</div>' +
+		'<div class="subscribe__text">' +
+		'<h2>'+ obj.username + '</h2>' + '<h3>'+ obj.name + '</h3>' +
+		'</div>' +
+		'<div class="subscribe__btn">' +
+		'<button class="cta blue" onclick=toggleSubscribeModal(this)>구독취소</button>' +
+		'</div>' +
+		'</div>';
 
+	return list;
 }
 
 
@@ -76,7 +103,6 @@ function profileImageUpload(id) {
 			dataType: "json"
 		}).done(res=>{
 			console.log("유저 이미지 ajax 성공 | " + res.data)
-
 			// 사진 전송 성공시 이미지 변경
 			let reader = new FileReader();
 			reader.onload = (e) => {
@@ -115,9 +141,3 @@ function modalClose() {
 	$(".modal-subscribe").css("display", "none");
 	location.reload();
 }
-
-
-
-
-
-

@@ -10,7 +10,7 @@ import org.springframework.validation.FieldError;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import project.myinstagram.auth.principal.CustomUserDetails;
+import project.myinstagram.principal.CustomUserDetails;
 import project.myinstagram.dto.UserDTO;
 import project.myinstagram.dto.ValidateDTO;
 import project.myinstagram.service.UserService;
@@ -54,8 +54,8 @@ public class UserApiController {
 
         System.out.println("formData : " + profileImageFile);
 
-        userService.userImageUpdate(id, profileImageFile);
+        String uploadFileName = userService.userImageUpdate(id, profileImageFile);
 
-        return new ResponseEntity<>(new ValidateDTO<>(), HttpStatus.OK);
+        return new ResponseEntity<>(new ValidateDTO<>(1, "성공", uploadFileName), HttpStatus.OK);
     }
 }

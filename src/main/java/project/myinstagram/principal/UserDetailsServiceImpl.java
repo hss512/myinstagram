@@ -1,4 +1,4 @@
-package project.myinstagram.auth.principal;
+package project.myinstagram.principal;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
