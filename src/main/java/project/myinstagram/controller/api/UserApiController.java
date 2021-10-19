@@ -54,8 +54,8 @@ public class UserApiController {
 
         System.out.println("formData : " + profileImageFile);
 
-        userService.userImageUpdate(id, profileImageFile);
+        String uploadFileName = userService.userImageUpdate(id, profileImageFile);
 
-        return new ResponseEntity<>(new ValidateDTO<>(), HttpStatus.OK);
+        return new ResponseEntity<>(new ValidateDTO<>(1, "성공", uploadFileName), HttpStatus.OK);
     }
 }

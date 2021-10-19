@@ -1,6 +1,7 @@
 package project.myinstagram.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -9,6 +10,7 @@ import project.myinstagram.dto.UserDTO;
 import project.myinstagram.entity.User;
 import project.myinstagram.repository.UserRepository;
 
+import java.io.File;
 import java.util.UUID;
 
 @Service
@@ -17,6 +19,9 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
+
+    @Value("${file.path}")
+    private String uploadPath;
 
     @Transactional
     public UserDTO userUpdate(Long id, UserDTO userDTO) {
@@ -36,7 +41,7 @@ public class UserService {
     }
 
     @Transactional
-    public int userImageUpdate(Long id, MultipartFile profileImageFile) {
+    public String userImageUpdate(Long id, MultipartFile profileImageFile) {
 
         User findUser = userRepository.findById(id).get();
 
@@ -44,6 +49,10 @@ public class UserService {
 
         UUID uuid = UUID.randomUUID();
 
-        return 0;
+        String uploadFilename = uuid+"_"+originalFilename;
+
+        findUser.setProfileImage(uploadFilename);
+
+        return uploadFilename;
     }
 }

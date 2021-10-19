@@ -76,7 +76,6 @@ function profileImageUpload(id) {
 			dataType: "json"
 		}).done(res=>{
 			console.log("유저 이미지 ajax 성공 | " + res.data)
-
 			// 사진 전송 성공시 이미지 변경
 			let reader = new FileReader();
 			reader.onload = (e) => {
