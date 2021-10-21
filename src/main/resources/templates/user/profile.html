@@ -16,13 +16,13 @@
 						<input type="file" name="profileImageFile" style="display: none;"
 						       id="userProfileImageInput" />
 					</form>
-						<img class="profile-image" src='/images/non.jpg' id="userProfileImage" />
+						<img class="profile-image" th:src="@{/api/image/(username=${pageUser.username},fileName=${pageUser.profileImage})}" id="userProfileImage" />
 				</div>
 			</th:block>
 			<th:block th:unless="${userDetails.id} == ${pageUser.id}">
 			<div class="profile-img-wrap story-border">
-						<img class="profile-image" src='/images/non.jpg' id="userProfileImage" />
-				</div>
+				<img class="profile-image" th:src="@{/api/image(username=${pageUser.username},fileName=${pageUser   .profileImage})}" id="userProfileImage" />
+			</div>
 			</th:block>
 		</div>
 		<!--유저이미지end-->
@@ -35,7 +35,12 @@
 				<th:block th:if="${pageUser.id} == ${userDetails.id}">
 				</th:block>
 				<th:block th:unless="${pageUser.id} == ${userDetails.id}">
-					<button class="cta" onclick="toggleSubscribe(this)">구독하기</button>
+					<th:block th:if="${followCheck} == 1">
+						<button class="cta" th:onclick="|toggleSubscribe(this, ${userDetails.id}, ${pageUser.id})|">언팔로우</button>
+					</th:block>
+					<th:block th:if="${followCheck} == 0">
+						<button class="cta" th:onclick="|toggleSubscribe(this, ${userDetails.id}, ${pageUser.id})|">팔로우</button>
+					</th:block>
 				</th:block>
 				<button class="modi" onclick="popup('.modal-info')">
 					<i class="fas fa-cog"></i>
@@ -46,7 +51,7 @@
 				<ul>
 					<li><a href=""> 게시물<span>[[${boardSize}]]</span>
 					</a></li>
-					<li><a th:href="|javascript:subscribeInfoModalOpen([[${userDetails.id}]]);|"> 구독정보<span>[[${subscribeSize}]]</span>
+					<li><a th:href="|javascript:subscribeInfoModalOpen([[${pageUser.id}]], [[${userDetails.id}]]);|"> 구독정보<span>[[${subscribeSize}]]</span>
 					</a></li>
 				</ul>
 			</div>

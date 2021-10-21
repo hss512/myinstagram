@@ -19,9 +19,9 @@
 
 /* Profile */
 .profile {
-  height: 170px;
+  height: 185px;
   display: flex;
-  margin: 54px 0 44px;
+  margin: 54px 0 54px;
 }
 .profile > .profileContainer {
   padding: 30px 20px 0;
@@ -168,6 +168,15 @@
 }
 
 /* Tab-content 1*/
+#tab-content{
+  height: 440px;
+}
+
+#tab-content .profileContainer{
+  border-top: 1px solid #dbdbdb;
+
+}
+
 #tab-content #tab-1-content {
   width: 100%;
   margin-bottom: 30px;

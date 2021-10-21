@@ -32,12 +32,14 @@ public class UserController {
         UserDTO pageUserDTO = userRepository.findById(id).get().toDTO().pageUserDTO();
         List<Subscribe> subscribeList = subscribeService.getSubscribeList(pageUserDTO.getId());
         List<Board> boardList = boardService.getBoardList(id);
+        int followCheck = subscribeService.followCheck(id, userDetails.getUserDTO().getId().toString());
 
 
         model.addAttribute("userDetails", userDetails.getUserDTO().userDTO());
         model.addAttribute("pageUser", pageUserDTO);
         model.addAttribute("subscribeSize", subscribeList.size());
         model.addAttribute("boardSize", boardList.size());
+        model.addAttribute("followCheck", followCheck);
 
         return "/user/profile";
     }

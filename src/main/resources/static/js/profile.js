@@ -11,24 +11,48 @@
  */
 
 // (1) 유저 프로파일 페이지 구독하기, 구독취소
-function toggleSubscribe(obj) {
-	if ($(obj).text() === "구독취소") {
-		$(obj).text("구독하기");
+function toggleSubscribe(obj, fromUserId, toUserId) {
+
+	if ($(obj).text() === "언팔로우") {
+
+		$.ajax({
+			url: "/api/follow/" + toUserId,
+			type: "delete",
+			data: JSON.stringify({fromUserId : fromUserId}),
+			contentType: "application/json",
+			dataType: "json"
+		}).done(res=>{
+			console.log(res)
+		}).fail(error=>{
+			console.log("구독 api 오류", error)
+		});
+
+		$(obj).text("팔로우");
 		$(obj).toggleClass("blue");
 	} else {
-		$(obj).text("구독취소");
+		$.ajax({
+			url: "/api/follow/" + toUserId,
+			type: "post",
+			data: JSON.stringify({fromUserId : fromUserId}),
+			contentType: "application/json",
+			dataType: "json"
+		}).done(res=>{
+			console.log(res)
+		}).fail(error=>{
+			console.log("구독 api 오류", error)
+		});
+		$(obj).text("언팔로우");
 		$(obj).toggleClass("blue");
 	}
 }
 
 // (2) 구독자 정보  모달 보기
-function subscribeInfoModalOpen(userId) {
+function subscribeInfoModalOpen(pageUserId, userId) {
 	$(".modal-subscribe").css("display", "flex");
 
 	$.ajax({
-		url: "/api/subscribes/" + userId,
-		type: "get",
-		dataType: "json"
+		url: "/api/subscribes/" + pageUserId + "/" + userId,
+		type: "get"
 	}).done(res=>{
 		console.log(res)
 		res.data.forEach((u)=>{
@@ -44,7 +68,7 @@ function getSubscribeModalItem(obj) {
 	let list =
 		'<div class="subscribe__item" id="subscribeModalItem-1">' +
 		'<div class="subscribe__img">' +
-		'<img src="/study/' + obj.profileImage + '">' +
+		'<img src="/api/image/?username=' + obj.username + '&fileName=' + obj.profileImage +'">' +
 		'</div>' +
 		'<div class="subscribe__text">' +
 		'<h2>'+ obj.username + '</h2>' + '<h3>'+ obj.name + '</h3>' +

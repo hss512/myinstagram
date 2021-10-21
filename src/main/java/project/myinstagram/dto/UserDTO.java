@@ -43,6 +43,8 @@ public class UserDTO {
 
     private String website;
 
+    private int followCheck;
+
     public User toEntity(){
         return User.builder()
                 .id(this.id)
@@ -77,6 +79,7 @@ public class UserDTO {
         return UserDTO.builder()
                 .id(this.id)
                 .username(this.username)
+                .profileImage(this.profileImage)
                 .name(this.name)
                 .bio(this.bio)
                 .website(this.website)
@@ -89,6 +92,7 @@ public class UserDTO {
                 .username(this.username)
                 .name(this.name)
                 .profileImage(this.profileImage)
+                .followCheck(this.followCheck)
                 .build();
     }
 }

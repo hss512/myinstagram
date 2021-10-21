@@ -4,7 +4,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import project.myinstagram.entity.Subscribe;
+import project.myinstagram.entity.User;
+import project.myinstagram.principal.CustomUserDetails;
 import project.myinstagram.repository.SubscribeRepository;
+import project.myinstagram.repository.UserRepository;
 
 import java.util.List;
 
@@ -14,8 +17,48 @@ import java.util.List;
 public class SubscribeService {
 
     private final SubscribeRepository subscribeRepository;
+    private final UserRepository userRepository;
 
     public List<Subscribe> getSubscribeList(Long id) {
         return subscribeRepository.findALlByFromUserId(id);
+    }
+
+    public Subscribe follow(Long toUserId, String fromUserId){
+
+        User fromUser = userRepository.findById(Long.parseLong(fromUserId)).get();
+
+        Subscribe newSubscribe = Subscribe
+                .builder()
+                .fromUser(fromUser)
+                .toUser(userRepository.findById(toUserId).get())
+                .build();
+
+        subscribeRepository.save(newSubscribe);
+
+        return newSubscribe;
+    }
+
+    public int followCancel(Long toUserId, String fromUserId) {
+
+        User fromUser = userRepository.findById(Long.parseLong(fromUserId)).get();
+
+        Subscribe getSubscribe = subscribeRepository.findByFromUserIdAndToUserId(fromUser.getId(), toUserId);
+
+        subscribeRepository.delete(getSubscribe);
+
+        return 1;
+    }
+
+    public int followCheck(Long toUserId, String fromUserId) {
+
+        User fromUser = userRepository.findById(Long.parseLong(fromUserId)).get();
+
+        Subscribe getSubscribe = subscribeRepository.findByFromUserIdAndToUserId(fromUser.getId(), toUserId);
+
+        if(getSubscribe != null){
+            return 1;
+        }else{
+            return 0;
+        }
     }
 }
