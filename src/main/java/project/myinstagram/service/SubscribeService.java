@@ -3,12 +3,13 @@ package project.myinstagram.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import project.myinstagram.dto.SubscribeDTO;
 import project.myinstagram.entity.Subscribe;
 import project.myinstagram.entity.User;
-import project.myinstagram.principal.CustomUserDetails;
-import project.myinstagram.repository.SubscribeRepository;
+import project.myinstagram.repository.subscribe.SubscribeRepository;
 import project.myinstagram.repository.UserRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -19,8 +20,10 @@ public class SubscribeService {
     private final SubscribeRepository subscribeRepository;
     private final UserRepository userRepository;
 
+    @Transactional(readOnly = true)
     public List<Subscribe> getSubscribeList(Long id) {
-        return subscribeRepository.findALlByFromUserId(id);
+        List<Subscribe> subscribeList = subscribeRepository.getSubscribeList(id);
+        return subscribeList;
     }
 
     public Subscribe follow(Long toUserId, String fromUserId){

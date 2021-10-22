@@ -93,10 +93,21 @@ public class UserApiController {
 
 
         } catch (Exception e) {
-            log.error(e.getMessage());
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+            try {
+                log.error(e.getMessage());
 
+                File file = new File(uploadPath + "non.jpg");
+
+                HttpHeaders header = new HttpHeaders();
+
+                header.add("Content-Type", Files.probeContentType(file.toPath()));
+
+                return new ResponseEntity<>(FileCopyUtils.copyToByteArray(file), header, HttpStatus.OK);
+
+            } catch (Exception exp) {
+                log.error(exp.getMessage());
+            }
+        }
         return image;
     }
 }

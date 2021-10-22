@@ -16,7 +16,8 @@
 						<input type="file" name="profileImageFile" style="display: none;"
 						       id="userProfileImageInput" />
 					</form>
-						<img class="profile-image" th:src="@{/api/image/(username=${pageUser.username},fileName=${pageUser.profileImage})}" id="userProfileImage" />
+						<img class="profile-image" th:src="@{/api/image/(username=${pageUser.username},fileName=${pageUser.profileImage})}"
+						     th:onerror="@{/images/non.jpg}" id="userProfileImage" />
 				</div>
 			</th:block>
 			<th:block th:unless="${userDetails.id} == ${pageUser.id}">
@@ -31,7 +32,9 @@
 		<div class="profile-right">
 			<div class="name-group">
 				<h2>[[${pageUser.name}]]</h2>
+				<th:block th:if="${pageUser.id} == ${userDetails.id}">
 				<button class="cta" th:onclick="'location.href=\''+ @{/image/upload}+'\';'">게시물 등록</button>
+				</th:block>
 				<th:block th:if="${pageUser.id} == ${userDetails.id}">
 				</th:block>
 				<th:block th:unless="${pageUser.id} == ${userDetails.id}">
@@ -51,7 +54,7 @@
 				<ul>
 					<li><a href=""> 게시물<span>[[${boardSize}]]</span>
 					</a></li>
-					<li><a th:href="|javascript:subscribeInfoModalOpen([[${pageUser.id}]], [[${userDetails.id}]]);|"> 구독정보<span>[[${subscribeSize}]]</span>
+					<li><a th:href="|javascript:subscribeInfoModalOpen(${pageUser.id}, ${userDetails.id});|"> 구독정보<span>[[${subscribeSize}]]</span>
 					</a></li>
 				</ul>
 			</div>

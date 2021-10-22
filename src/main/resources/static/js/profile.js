@@ -56,16 +56,21 @@ function subscribeInfoModalOpen(pageUserId, userId) {
 	}).done(res=>{
 		console.log(res)
 		res.data.forEach((u)=>{
-			$("#subscribeModalList").append(getSubscribeModalItem(u));
+			$("#subscribeModalList").append(getSubscribeModalItem(u, pageUserId));
 		})
 	}).fail(error=>{
 		console.log(error, '구독리스트 api 에러')
 	});
 }
 
-function getSubscribeModalItem(obj) {
+function getSubscribeModalItem(obj, fromUserId) {
 	console.log("Subscribe List Console : " + obj.name);
-	let list =
+
+	let state = obj.followCheck;
+
+	console.log("followCheck : " + state);
+
+	let followBtn =
 		'<div class="subscribe__item" id="subscribeModalItem-1">' +
 		'<div class="subscribe__img">' +
 		'<img src="/api/image/?username=' + obj.username + '&fileName=' + obj.profileImage +'">' +
@@ -74,21 +79,75 @@ function getSubscribeModalItem(obj) {
 		'<h2>'+ obj.username + '</h2>' + '<h3>'+ obj.name + '</h3>' +
 		'</div>' +
 		'<div class="subscribe__btn">' +
-		'<button class="cta blue" onclick=toggleSubscribeModal(this)>구독취소</button>' +
+		'<button class="cta blue" onclick="toggleSubscribeModal(this, ' + obj.id + ',' + fromUserId +')">언팔로우</button>' +
 		'</div>' +
 		'</div>';
 
-	return list;
+	let unfollowBtn =
+		'<div class="subscribe__item" id="subscribeModalItem-1">' +
+		'<div class="subscribe__img">' +
+		'<img src="/api/image/?username=' + obj.username + '&fileName=' + obj.profileImage +'">' +
+		'</div>' +
+		'<div class="subscribe__text">' +
+		'<h2>'+ obj.username + '</h2>' + '<h3>'+ obj.name + '</h3>' +
+		'</div>' +
+		'<div class="subscribe__btn">' +
+		'<button class="cta blue" onclick="toggleSubscribeModal(this, ' + obj.id + ',' + fromUserId +')">팔로우</button>' +
+		'</div>' +
+		'</div>';
+
+		let nonBtn =
+		'<div class="subscribe__item" id="subscribeModalItem-1">' +
+		'<div class="subscribe__img">' +
+		'<img src="/api/image/?username=' + obj.username + '&fileName=' + obj.profileImage +'">' +
+		'</div>' +
+		'<div class="subscribe__text">' +
+		'<h2>'+ obj.username + '</h2>' + '<h3>'+ obj.name + '</h3>' +
+		'</div>' +
+		'<div class="subscribe__btn">' +
+		'</div>' +
+		'</div>';
+
+	if(state === 1){
+		return followBtn;
+	}else if(state === 0){
+		return unfollowBtn;
+	}else{
+		return nonBtn;
+	}
 }
 
 
 // (3) 구독자 정보 모달에서 구독하기, 구독취소
-function toggleSubscribeModal(obj) {
-	if ($(obj).text() === "구독취소") {
-		$(obj).text("구독하기");
+function toggleSubscribeModal(obj, toUserid, fromUserId) {
+	console.log(toUserid)
+	if ($(obj).text() === "언팔로우") {
+		$.ajax({
+			url: "/api/follow/" + toUserid,
+			type: "delete",
+			data: JSON.stringify({fromUserId : fromUserId}),
+			contentType: "application/json",
+			dataType: "json"
+		}).done(res=>{
+			console.log(res.data)
+		}).fail(err=>{
+			console.log("팔로우 모달창 에러", err)
+		});
+		$(obj).text("팔로우");
 		$(obj).toggleClass("blue");
 	} else {
-		$(obj).text("구독취소");
+		$.ajax({
+			url: "/api/follow/" + toUserid,
+			type: "post",
+			data: JSON.stringify({fromUserId : fromUserId}),
+			contentType: "application/json",
+			dataType: "json"
+		}).done(res=>{
+			console.log(res.data)
+		}).fail(err=>{
+			console.log("팔로우 모달창 에러", err)
+		});
+		$(obj).text("언팔로우");
 		$(obj).toggleClass("blue");
 	}
 }

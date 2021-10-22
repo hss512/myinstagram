@@ -1,6 +1,7 @@
 package project.myinstagram.controller.api;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -18,6 +19,7 @@ import java.util.Map;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api")
+@Slf4j
 public class SubscribeApiController {
 
     private final SubscribeService subscribeService;
@@ -26,14 +28,31 @@ public class SubscribeApiController {
     public ResponseEntity<?> getSubscribeList(@PathVariable Long pageUserId,
                                               @PathVariable String userId){
 
-        List<Subscribe> subscribeList = subscribeService.getSubscribeList(pageUserId);
+        List<Subscribe> pageUserSubscribe = subscribeService.getSubscribeList(pageUserId);
+
+        List<Subscribe> userSubscribe = subscribeService.getSubscribeList(Long.parseLong(userId));
 
         List<UserDTO> subscribeUserDTO = new ArrayList<>();
 
-        for (Subscribe subscribe : subscribeList) {
-            subscribeUserDTO.add(subscribe.getToUser().toDTO().subscribeUserDTO());
+        if(!pageUserId.equals(Long.parseLong(userId))){
+            for (Subscribe puSubscribe : pageUserSubscribe) {
+                for (Subscribe uSubscribe : userSubscribe) {
+                    if(puSubscribe.getToUser().equals(uSubscribe.getToUser())){
+                        subscribeUserDTO.add(puSubscribe.getToUser().toDTO().subscribeUserDTO(1));
+                    }else if(puSubscribe.getToUser().equals(uSubscribe.getFromUser())){
+                        subscribeUserDTO.add(puSubscribe.getToUser().toDTO().subscribeUserDTO(2));
+                    }else{
+                        subscribeUserDTO.add(puSubscribe.getToUser().toDTO().subscribeUserDTO(0));
+                    }
+                }
+            }
+            log.info("다른 유저 팔로워 보기");
+        }else{
+            for (Subscribe subscribe : pageUserSubscribe) {
+                subscribeUserDTO.add(subscribe.getToUser().toDTO().subscribeUserDTO(2));
+            }
+            log.info("나의 팔로워 보기");
         }
-
         return new ResponseEntity<>(new ValidateDTO<>(1, "성공", subscribeUserDTO), HttpStatus.OK);
     }
 

@@ -43,7 +43,7 @@ public class UserDTO {
 
     private String website;
 
-    private int followCheck;
+    private int followCheck = 0;
 
     public User toEntity(){
         return User.builder()
@@ -86,13 +86,13 @@ public class UserDTO {
                 .build();
     }
 
-    public UserDTO subscribeUserDTO(){
+    public UserDTO subscribeUserDTO(int check){
         return UserDTO.builder()
                 .id(this.id)
                 .username(this.username)
                 .name(this.name)
                 .profileImage(this.profileImage)
-                .followCheck(this.followCheck)
+                .followCheck(check)
                 .build();
     }
 }
