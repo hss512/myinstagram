@@ -3,7 +3,7 @@ package project.myinstagram.principal;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import project.myinstagram.dto.UserDTO;
+import project.myinstagram.dto.user.SignUpDTO;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -13,9 +13,9 @@ public class CustomUserDetails implements UserDetails {
 
     private static final long serialVersionUID = 1L;
 
-    private UserDTO userDTO;
+    private SignUpDTO userDTO;
 
-    public CustomUserDetails(UserDTO userDTO){
+    public CustomUserDetails(SignUpDTO userDTO){
         this.userDTO = userDTO;
     }
 

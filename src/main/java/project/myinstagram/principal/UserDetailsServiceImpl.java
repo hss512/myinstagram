@@ -24,7 +24,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
             return null;
         }else{
             System.out.println("로그인 성공");
-            return new CustomUserDetails(findUser.toDTO());
+            return new CustomUserDetails(findUser.toSignUpDTO());
         }
     }
 }

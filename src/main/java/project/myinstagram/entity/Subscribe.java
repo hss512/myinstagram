@@ -1,6 +1,7 @@
 package project.myinstagram.entity;
 
 import lombok.*;
+import project.myinstagram.dto.SubscribeDTO;
 
 import javax.persistence.*;
 
@@ -30,4 +31,12 @@ public class Subscribe extends BaseEntity{
     @JoinColumn(name = "to_user_id")
     private User toUser;
 // 최대한 단방향 Lazy 전략 사용해보자
+
+    public SubscribeDTO toDTO(){
+        return SubscribeDTO.builder()
+                .id(this.id)
+                .fromUser(this.fromUser.toDTO())
+                .toUser(this.toUser.toDTO())
+                .build();
+    }
 }

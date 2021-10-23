@@ -1,12 +1,14 @@
 package project.myinstagram.service;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.Resource;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
-import project.myinstagram.dto.UserDTO;
+import project.myinstagram.dto.user.SignUpDTO;
 import project.myinstagram.entity.User;
 import project.myinstagram.repository.UserRepository;
 
@@ -16,6 +18,7 @@ import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class UserService {
 
     private final UserRepository userRepository;
@@ -25,7 +28,7 @@ public class UserService {
     private String uploadPath;
 
     @Transactional
-    public UserDTO userUpdate(Long id, UserDTO userDTO) {
+    public SignUpDTO userUpdate(Long id, SignUpDTO userDTO) {
         User findUser = userRepository.findById(id).get();
 
         String encodePassword = bCryptPasswordEncoder.encode(userDTO.getPassword());
@@ -38,7 +41,7 @@ public class UserService {
         findUser.setSex(userDTO.getSex());
         findUser.setPhoneNumber(userDTO.getPhoneNumber());
 
-        return findUser.toDTO();
+        return findUser.toSignUpDTO();
     }
 
     @Transactional
@@ -68,6 +71,8 @@ public class UserService {
                 new File(uploadPath + username + "/" + profileImage).delete();
             }
             profileImageFile.transferTo(new File(uploadPath + username + "/" + uploadFilename));
+
+
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -56,14 +56,14 @@ function subscribeInfoModalOpen(pageUserId, userId) {
 	}).done(res=>{
 		console.log(res)
 		res.data.forEach((u)=>{
-			$("#subscribeModalList").append(getSubscribeModalItem(u, pageUserId));
+			$("#subscribeModalList").append(getSubscribeModalItem(u, userId));
 		})
 	}).fail(error=>{
 		console.log(error, '구독리스트 api 에러')
 	});
 }
 
-function getSubscribeModalItem(obj, fromUserId) {
+function getSubscribeModalItem(obj, userId) {
 	console.log("Subscribe List Console : " + obj.name);
 
 	let state = obj.followCheck;
@@ -79,7 +79,7 @@ function getSubscribeModalItem(obj, fromUserId) {
 		'<h2>'+ obj.username + '</h2>' + '<h3>'+ obj.name + '</h3>' +
 		'</div>' +
 		'<div class="subscribe__btn">' +
-		'<button class="cta blue" onclick="toggleSubscribeModal(this, ' + obj.id + ',' + fromUserId +')">언팔로우</button>' +
+		'<button class="cta blue" onclick="toggleSubscribeModal(this, ' + obj.id + ',' + userId +')">언팔로우</button>' +
 		'</div>' +
 		'</div>';
 
@@ -92,7 +92,7 @@ function getSubscribeModalItem(obj, fromUserId) {
 		'<h2>'+ obj.username + '</h2>' + '<h3>'+ obj.name + '</h3>' +
 		'</div>' +
 		'<div class="subscribe__btn">' +
-		'<button class="cta blue" onclick="toggleSubscribeModal(this, ' + obj.id + ',' + fromUserId +')">팔로우</button>' +
+		'<button class="cta blue" onclick="toggleSubscribeModal(this, ' + obj.id + ',' + userId +')">팔로우</button>' +
 		'</div>' +
 		'</div>';
 
@@ -120,7 +120,6 @@ function getSubscribeModalItem(obj, fromUserId) {
 
 // (3) 구독자 정보 모달에서 구독하기, 구독취소
 function toggleSubscribeModal(obj, toUserid, fromUserId) {
-	console.log(toUserid)
 	if ($(obj).text() === "언팔로우") {
 		$.ajax({
 			url: "/api/follow/" + toUserid,

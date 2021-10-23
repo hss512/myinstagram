@@ -7,7 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-import project.myinstagram.dto.UserDTO;
+import project.myinstagram.dto.user.SignUpDTO;
 import project.myinstagram.dto.ValidateDTO;
 import project.myinstagram.service.AuthService;
 
@@ -19,7 +19,7 @@ public class AuthApiController {
     private final AuthService authService;
 
     @PostMapping ("/api/idCheck")
-    public ResponseEntity<?> idCheck(@RequestBody UserDTO userDTO){
+    public ResponseEntity<?> idCheck(@RequestBody SignUpDTO userDTO){
 
         String username = userDTO.getUsername();
 

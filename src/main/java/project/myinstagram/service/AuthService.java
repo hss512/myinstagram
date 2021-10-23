@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import project.myinstagram.dto.UserDTO;
+import project.myinstagram.dto.user.SignUpDTO;
 import project.myinstagram.entity.User;
 import project.myinstagram.repository.UserRepository;
 
@@ -16,7 +16,7 @@ public class AuthService{
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Transactional
-    public void signUp(UserDTO userDTO){
+    public void signUp(SignUpDTO userDTO){
         String password = userDTO.getPassword();
         userDTO.setPassword(bCryptPasswordEncoder.encode(password));
         userDTO.setRole("ROLE_USER");

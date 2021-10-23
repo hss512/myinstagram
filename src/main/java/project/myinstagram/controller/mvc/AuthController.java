@@ -8,11 +8,10 @@ import org.springframework.validation.FieldError;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import project.myinstagram.dto.UserDTO;
+import project.myinstagram.dto.user.SignUpDTO;
 import project.myinstagram.exception.ValidationException;
 import project.myinstagram.service.AuthService;
 
-import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -34,7 +33,7 @@ public class AuthController {
     }
 
     @PostMapping("/auth/signup")
-    public String join(@Validated UserDTO userDTO, BindingResult bindingResult){
+    public String join(@Validated SignUpDTO userDTO, BindingResult bindingResult){
 
         if(bindingResult.hasErrors()){
             Map<String, String> errorMap = new HashMap<>();

@@ -1,7 +1,8 @@
 package project.myinstagram.entity;
 
 import lombok.*;
-import project.myinstagram.dto.UserDTO;
+import project.myinstagram.dto.user.SignUpDTO;
+import project.myinstagram.dto.user.UserDTO;
 
 import javax.persistence.*;
 
@@ -39,8 +40,8 @@ public class User extends BaseEntity{
     
     private String website;
 
-    public UserDTO toDTO(){
-        return UserDTO.builder()
+    public SignUpDTO toSignUpDTO(){
+        return SignUpDTO.builder()
                 .id(this.id)
                 .username(this.username)
                 .name(this.name)
@@ -52,6 +53,15 @@ public class User extends BaseEntity{
                 .role(this.role)
                 .profileImage(this.profileImage)
                 .website(this.website)
+                .build();
+    }
+
+    public UserDTO toDTO(){
+        return UserDTO.builder()
+                .id(this.id)
+                .username(username)
+                .name(this.name)
+                .profileImage(this.profileImage)
                 .build();
     }
 }

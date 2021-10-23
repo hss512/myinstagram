@@ -14,13 +14,14 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import project.myinstagram.principal.CustomUserDetails;
-import project.myinstagram.dto.UserDTO;
+import project.myinstagram.dto.user.SignUpDTO;
 import project.myinstagram.dto.ValidateDTO;
 import project.myinstagram.service.UserService;
 
+import javax.imageio.ImageIO;
+import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.nio.file.Files;
 import java.util.HashMap;
@@ -38,7 +39,7 @@ public class UserApiController {
     private String uploadPath;
 
     @PutMapping("/user/{id}")
-    public ResponseEntity<?> userProfileUpdate(@Validated UserDTO userDTO,
+    public ResponseEntity<?> userProfileUpdate(@Validated SignUpDTO userDTO,
                                     BindingResult bindingResult,
                                     @AuthenticationPrincipal CustomUserDetails userDetails){
 
@@ -51,7 +52,7 @@ public class UserApiController {
                 System.out.println("userDTO = " + userDTO);
             }
         }
-        UserDTO updateUser = userService.userUpdate(userDetails.getUserDTO().getId(), userDTO);
+        SignUpDTO updateUser = userService.userUpdate(userDetails.getUserDTO().getId(), userDTO);
 
         userDetails.setUserDTO(updateUser);
 

@@ -1,4 +1,4 @@
-package project.myinstagram.dto;
+package project.myinstagram.dto.user;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -14,7 +14,7 @@ import javax.validation.constraints.Size;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class UserDTO {
+public class SignUpDTO {
 
     private Long id;
 
@@ -56,16 +56,17 @@ public class UserDTO {
                 .build();
     }
 
-    public UserDTO userDTO(){
-        return UserDTO.builder()
+    public SignUpDTO userDTO(){
+        return SignUpDTO.builder()
                 .id(this.id)
                 .username(this.username)
                 .name(this.name)
+                .profileImage(this.profileImage)
                 .build();
     }
 
-    public UserDTO updateUserProfileDTO(){
-        return UserDTO.builder()
+    public SignUpDTO updateUserProfileDTO(){
+        return SignUpDTO.builder()
                 .username(this.username)
                 .name(this.name)
                 .email(this.email)
@@ -75,8 +76,8 @@ public class UserDTO {
                 .build();
     }
 
-    public UserDTO pageUserDTO(){
-        return UserDTO.builder()
+    public SignUpDTO pageUserDTO(){
+        return SignUpDTO.builder()
                 .id(this.id)
                 .username(this.username)
                 .profileImage(this.profileImage)
@@ -86,8 +87,8 @@ public class UserDTO {
                 .build();
     }
 
-    public UserDTO subscribeUserDTO(int check){
-        return UserDTO.builder()
+    public SignUpDTO subscribeUserDTO(int check){
+        return SignUpDTO.builder()
                 .id(this.id)
                 .username(this.username)
                 .name(this.name)

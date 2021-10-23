@@ -7,7 +7,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import project.myinstagram.principal.CustomUserDetails;
-import project.myinstagram.dto.UserDTO;
+import project.myinstagram.dto.user.SignUpDTO;
 import project.myinstagram.entity.Board;
 import project.myinstagram.entity.Subscribe;
 import project.myinstagram.repository.UserRepository;
@@ -29,7 +29,7 @@ public class UserController {
                            @AuthenticationPrincipal CustomUserDetails userDetails,
                            Model model){
 
-        UserDTO pageUserDTO = userRepository.findById(id).get().toDTO().pageUserDTO();
+        SignUpDTO pageUserDTO = userRepository.findById(id).get().toSignUpDTO().pageUserDTO();
         List<Subscribe> subscribeList = subscribeService.getSubscribeList(pageUserDTO.getId());
         List<Board> boardList = boardService.getBoardList(id);
         int followCheck = subscribeService.followCheck(id, userDetails.getUserDTO().getId().toString());
