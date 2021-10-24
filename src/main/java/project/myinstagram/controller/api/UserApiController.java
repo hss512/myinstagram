@@ -18,9 +18,6 @@ import project.myinstagram.dto.user.SignUpDTO;
 import project.myinstagram.dto.ValidateDTO;
 import project.myinstagram.service.UserService;
 
-import javax.imageio.ImageIO;
-import java.awt.*;
-import java.awt.image.BufferedImage;
 import java.io.File;
 import java.net.URLDecoder;
 import java.nio.file.Files;

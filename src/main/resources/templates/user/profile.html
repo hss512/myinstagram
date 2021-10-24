@@ -33,7 +33,7 @@
 			<div class="name-group">
 				<h2>[[${pageUser.name}]]</h2>
 				<th:block th:if="${pageUser.id} == ${userDetails.id}">
-				<button class="cta" th:onclick="'location.href=\''+ @{/image/upload}+'\';'">게시물 등록</button>
+				<button class="cta" th:onclick="'location.href=\''+ @{/board/upload}+'\';'">게시물 등록</button>
 				</th:block>
 				<th:block th:if="${pageUser.id} == ${userDetails.id}">
 				</th:block>
@@ -54,7 +54,7 @@
 				<ul>
 					<li><a href=""> 게시물<span>[[${boardSize}]]</span>
 					</a></li>
-					<li><a th:href="|javascript:subscribeInfoModalOpen(${pageUser.id}, ${userDetails.id});|"> 구독정보<span>[[${subscribeSize}]]</span>
+					<li><a th:href="|javascript:subscribeInfoModalOpen(${pageUser.id}, ${userDetails.id});|"> 팔로우<span>[[${subscribeSize}]]</span>
 					</a></li>
 				</ul>
 			</div>
@@ -78,8 +78,6 @@
 			<div class="tab-1-content-inner">
 
 				<!--아이템들-->
-
-
 				<div class="img-box">
 					<a href=""> <img src="/api/image/?username=hss2535&fileName=home.jpg" />
 					</a>
@@ -88,25 +86,6 @@
 						</a>
 					</div>
 				</div>
-
-				<div class="img-box">
-					<a href=""> <img src="/api/image/?username=hss2535&fileName=home.jpg" />
-					</a>
-					<div class="comment">
-						<a href="#" class=""> <i class="fas fa-heart"></i><span>0</span>
-						</a>
-					</div>
-				</div>
-
-				<div class="img-box">
-					<a href=""> <img src="/api/image/?username=hss2535&fileName=home.jpg" />
-					</a>
-					<div class="comment">
-						<a href="#" class=""> <i class="fas fa-heart"></i><span>0</span>
-						</a>
-					</div>
-				</div>
-
 				<!--아이템들end-->
 			</div>
 		</div>
@@ -137,7 +116,7 @@
 <div class="modal-subscribe">
 	<div class="subscribe">
 		<div class="subscribe-header">
-			<span>구독정보</span>
+			<span>팔로우</span>
 			<button onclick="modalClose()">
 				<i class="fas fa-times"></i>
 			</button>

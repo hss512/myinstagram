@@ -152,6 +152,7 @@ function toggleSubscribeModal(obj, toUserid, fromUserId) {
 }
 
 // (4) 유저 프로파일 사진 변경 (완)
+// 심각한 오류 찾음_ 페이지 리로드 하지 않고 프로필 사진 변경 시 +1 씩 ajax 호출_ ex)첫번째 1번 호출, 두번째 2번 호출, ...
 function profileImageUpload(id) {
 
 	$("#userProfileImageInput").click();

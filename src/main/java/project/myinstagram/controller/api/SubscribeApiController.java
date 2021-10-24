@@ -46,7 +46,7 @@ public class SubscribeApiController {
                         } else {
                             checkNum = 0; // 본인
                         }
-                    }
+                    } // 코드좀 고치자
                 }
                 subscribeDTO.add(puSubscribe.getToUser().toDTO().subscribeCheckDTO(checkNum));
                 checkNum = -1;
@@ -54,7 +54,7 @@ public class SubscribeApiController {
             log.info("다른 유저 팔로워 보기");
         }else{
             for (Subscribe subscribe : pageUserSubscribe) {
-                subscribeDTO.add(subscribe.getToUser().toDTO().subscribeCheckDTO(2));
+                subscribeDTO.add(subscribe.getToUser().toDTO().subscribeCheckDTO(1));
             }
             log.info("나의 팔로워 보기");
         }
