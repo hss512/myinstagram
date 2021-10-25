@@ -38,6 +38,7 @@ public class UserController {
         model.addAttribute("userDetails", userDetails.getUserDTO().userDTO());
         model.addAttribute("pageUser", pageUserDTO);
         model.addAttribute("subscribeSize", subscribeList.size());
+        model.addAttribute("boardList", boardList);
         model.addAttribute("boardSize", boardList.size());
         model.addAttribute("followCheck", followCheck);
 

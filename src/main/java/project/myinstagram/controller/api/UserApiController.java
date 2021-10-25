@@ -19,6 +19,7 @@ import project.myinstagram.dto.ValidateDTO;
 import project.myinstagram.service.UserService;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.URLDecoder;
 import java.nio.file.Files;
 import java.util.HashMap;
@@ -59,7 +60,7 @@ public class UserApiController {
     @PutMapping("/userImage/{id}")
     public ResponseEntity<?> userImageUpdate(MultipartFile profileImageFile,
                                              @PathVariable Long id,
-                                             @AuthenticationPrincipal CustomUserDetails userDetails){
+                                             @AuthenticationPrincipal CustomUserDetails userDetails)/* throws IOException*/ {
 
         System.out.println("formData : " + profileImageFile);
 

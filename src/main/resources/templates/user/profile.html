@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <div th:replace="/layout/header :: header"></div>
-
+<body>
 <!--프로필 섹션-->
 <section class="profile">
 	<!--유저정보 컨테이너-->
@@ -71,22 +71,21 @@
 <!--게시물컨섹션-->
 <section id="tab-content">
 	<!--게시물컨컨테이너-->
-	<div class="profileContainer">
+	<div class="profileContainer" id="boardContainer">
 		<!--그냥 감싸는 div (지우면이미지커짐)-->
 		<div id="tab-1-content" class="tab-content-item show">
 			<!--게시물컨 그리드배열-->
 			<div class="tab-1-content-inner">
-
-				<!--아이템들-->
-				<div class="img-box">
-					<a href=""> <img src="/api/image/?username=hss2535&fileName=home.jpg" />
-					</a>
-					<div class="comment">
-						<a href="#" class=""> <i class="fas fa-heart"></i><span>0</span>
+				<th:block th:each="board : ${boardList}">
+					<div class="img-box">
+						<a href=""> <img th:src="@{${'/api/board/image/?username=' + board.user.username + '&fileName=' + board.imageUrl + '&boardId=' + board.id}}" />
 						</a>
+						<div class="comment">
+							<a href="#" class=""> <i class="fas fa-heart"></i><span>0</span>
+							</a>
+						</div>
 					</div>
-				</div>
-				<!--아이템들end-->
+				</th:block>
 			</div>
 		</div>
 	</div>
@@ -126,5 +125,6 @@
 	</div>
 </div>
 <script type="text/javascript" th:src="@{/js/profile.js}"></script>
-<div th:replace="/layout/footer :: footer"></div>
+</body>
+<footer th:replace="/layout/footer :: footer"></footer>
 </html>

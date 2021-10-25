@@ -8,6 +8,11 @@
   outline: none;
 }
 
+html{
+  width: 100%;
+  height: 100%;
+}
+
 /*페이지의 중앙을 잡아줄 컨테이너*/
 .container {
   width: 100%;
