@@ -6,7 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import project.myinstagram.dto.BoardDTO;
+import project.myinstagram.dto.board.BoardDTO;
 import project.myinstagram.principal.CustomUserDetails;
 import project.myinstagram.service.BoardService;
 

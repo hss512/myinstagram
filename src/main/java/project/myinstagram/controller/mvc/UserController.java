@@ -31,7 +31,7 @@ public class UserController {
 
         SignUpDTO pageUserDTO = userRepository.findById(id).get().toSignUpDTO().pageUserDTO();
         List<Subscribe> subscribeList = subscribeService.getSubscribeList(pageUserDTO.getId());
-        List<Board> boardList = boardService.getBoardList(id);
+        List<Board> boardList = boardService.getMyBoardList(id);
         int followCheck = subscribeService.followCheck(id, userDetails.getUserDTO().getId().toString());
 
 

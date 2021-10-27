@@ -3,20 +3,17 @@ package project.myinstagram.service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.FileCopyUtils;
-import project.myinstagram.dto.BoardDTO;
+import project.myinstagram.dto.board.BoardDTO;
+import project.myinstagram.dto.board.BoardJsonDTO;
 import project.myinstagram.dto.user.SignUpDTO;
-import project.myinstagram.dto.user.UserDTO;
 import project.myinstagram.entity.Board;
-import project.myinstagram.repository.BoardRepository;
+import project.myinstagram.repository.board.BoardRepository;
 
 import java.io.File;
-import java.net.URLDecoder;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
@@ -32,7 +29,9 @@ public class BoardService {
 
     private final BoardRepository boardRepository;
 
-    public List<Board> getBoardList(Long id) {
+    private final SubscribeService subscribeService;
+
+    public List<Board> getMyBoardList(Long id) {
 
         return boardRepository.findALlByUserId(id);
     }
@@ -83,7 +82,10 @@ public class BoardService {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
 
-        /*boardRepository.save();*/
+    public Page<BoardJsonDTO> getBoardList(Long id, Pageable pageable){
+
+        return boardRepository.getBoardList(id, pageable);
     }
 }

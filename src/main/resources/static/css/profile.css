@@ -180,11 +180,12 @@
 #tab-content #tab-1-content .tab-1-content-inner {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  grid-gap: 15px;
+  grid-gap: 28px;
 }
 #tab-content #tab-1-content .tab-1-content-inner .img-box {
   position: relative;
   height: 293px;
+  width: 293px;
 }
 #tab-content #tab-1-content .tab-1-content-inner .img-box img {
   width: 100%;

@@ -1,4 +1,4 @@
-package project.myinstagram.dto;
+package project.myinstagram.dto.board;
 
 import lombok.Data;
 import org.springframework.web.multipart.MultipartFile;

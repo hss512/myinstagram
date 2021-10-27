@@ -78,11 +78,10 @@ public class UserApiController {
         try{
             String decodeFileName = URLDecoder.decode(fileName, "UTF-8");
 
-            log.info("fileName : " + decodeFileName);
-
             File file = new File(uploadPath + username + File.separator + decodeFileName);
 
             log.info("file: " + file);
+            log.info("===================================");
 
             HttpHeaders header = new HttpHeaders();
 
