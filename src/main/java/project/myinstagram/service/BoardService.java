@@ -2,21 +2,27 @@ package project.myinstagram.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import net.coobird.thumbnailator.Thumbnails;
+import net.coobird.thumbnailator.geometry.Positions;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 import project.myinstagram.dto.board.BoardDTO;
 import project.myinstagram.dto.board.BoardJsonDTO;
 import project.myinstagram.dto.user.SignUpDTO;
 import project.myinstagram.entity.Board;
 import project.myinstagram.repository.board.BoardRepository;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @Transactional(readOnly = true)
@@ -46,17 +52,42 @@ public class BoardService {
 
         log.info("username={}", username);
 
+        UUID uuid = UUID.randomUUID();
+
+        String uploadFilename = uuid+ "_" + originalFilename;
+
         Board board = Board.builder()
                 .user(userDTO.toEntity())
                 .content(boardDTO.getContent())
-                .imageUrl(originalFilename)
+                .imageUrl(uploadFilename)
                 .build();
 
         Board saveBoard = boardRepository.save(board);
 
         Long boardId = saveBoard.getId();
 
+        BufferedImage image = null;
+
+        MultipartFile imageFile = boardDTO.getFile();
+
         try{
+
+            image = ImageIO.read(imageFile.getInputStream());
+
+            int width = image.getWidth();
+            int height = image.getHeight();
+
+            if(width > height){
+                width = height;
+            }else{
+                height = width;
+            }
+
+            BufferedImage thumbImage = Thumbnails.of(image)
+                    .sourceRegion(Positions.CENTER, width, height)
+                    .size(700, 700)
+                    .outputQuality(1.0f).outputFormat("png") // 보다 고화질
+                    .asBufferedImage();
 
             if(Files.exists(Path.of(uploadPath + "/" + username))) {
 
@@ -66,7 +97,7 @@ public class BoardService {
 
                 file.mkdir();
 
-                boardDTO.getFile().transferTo(new File(file.getAbsolutePath(), originalFilename));
+                ImageIO.write(thumbImage, "png", new File(file.getAbsolutePath(), uploadFilename));
 
             }else{
                 File file = new File(uploadPath, username);
@@ -76,7 +107,7 @@ public class BoardService {
 
                 newFile.mkdir();
 
-                boardDTO.getFile().transferTo(new File(newFile.getAbsolutePath(), originalFilename));
+                ImageIO.write(thumbImage, "png", new File(newFile.getAbsolutePath(), uploadFilename));
             }
 
         } catch (Exception e) {

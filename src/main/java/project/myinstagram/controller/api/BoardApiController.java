@@ -50,7 +50,6 @@ public class BoardApiController {
             File file = new File(uploadPath + username + File.separator + boardId + File.separator + decodeFileName);
 
             log.info("file: " + file);
-            log.info("===================================");
 
             HttpHeaders header = new HttpHeaders();
 

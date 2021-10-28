@@ -6,7 +6,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import project.myinstagram.entity.User;
-import project.myinstagram.repository.UserRepository;
+import project.myinstagram.repository.user.UserRepository;
 
 @Service
 @RequiredArgsConstructor

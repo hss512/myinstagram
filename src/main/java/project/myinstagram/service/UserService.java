@@ -3,9 +3,7 @@ package project.myinstagram.service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import net.coobird.thumbnailator.Thumbnails;
-import net.coobird.thumbnailator.geometry.Position;
 import net.coobird.thumbnailator.geometry.Positions;
-import net.coobird.thumbnailator.name.Rename;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -13,7 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import project.myinstagram.dto.user.SignUpDTO;
 import project.myinstagram.entity.User;
-import project.myinstagram.repository.UserRepository;
+import project.myinstagram.repository.user.UserRepository;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;

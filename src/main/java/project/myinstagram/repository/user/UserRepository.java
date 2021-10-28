@@ -1,4 +1,4 @@
-package project.myinstagram.repository;
+package project.myinstagram.repository.user;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import project.myinstagram.entity.User;

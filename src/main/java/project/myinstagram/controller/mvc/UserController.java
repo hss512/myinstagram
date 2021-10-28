@@ -10,7 +10,7 @@ import project.myinstagram.principal.CustomUserDetails;
 import project.myinstagram.dto.user.SignUpDTO;
 import project.myinstagram.entity.Board;
 import project.myinstagram.entity.Subscribe;
-import project.myinstagram.repository.UserRepository;
+import project.myinstagram.repository.user.UserRepository;
 import project.myinstagram.service.BoardService;
 import project.myinstagram.service.SubscribeService;
 

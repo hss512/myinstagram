@@ -81,7 +81,6 @@ public class UserApiController {
             File file = new File(uploadPath + username + File.separator + decodeFileName);
 
             log.info("file: " + file);
-            log.info("===================================");
 
             HttpHeaders header = new HttpHeaders();
 

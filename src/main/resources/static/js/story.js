@@ -15,7 +15,7 @@ function storyLoad() {
 		url: "api/board?page=" + page,
 		dataType: "json"
 	}).done(res=>{
-		console.log(res.data)
+		/*console.log(res.data)*/
 		res.data.content.forEach((data)=>{
 			console.log(data)
 			$("#storyList").append(getStoryItem(data));
@@ -38,6 +38,11 @@ function getStoryItem(data) {
 	let boardUserUsername = data.userDTO.username;
 	let boardUserProfileImage = data.userDTO.profileImage;
 
+	let likeCheck = '<div class="sl__item__contents__icon">\n' +
+		'<button>\n' +
+		'<i class="fas fa-heart active" id="storyLikeIcon-'+ boardId +'" onclick="toggleLike('+ boardId +')"></i>\n' +
+		'</button>\n' +
+		'</div>\n';
 
 	let list = '<div class="story-list__item">\n' +
 		'<div class="sl__item__header">\n' +
@@ -50,28 +55,26 @@ function getStoryItem(data) {
 		'<img src="/api/board/image/?username='+ boardUserUsername + "&fileName=" + image + "&boardId=" + boardId +'" />\n' +
 		'</div>\n' +
 		'<div class="sl__item__contents">\n' +
-		'<div class="sl__item__contents__icon">\n' +
-		'<button>\n' +
-		'<i class="fas fa-heart active" id="storyLikeIcon-1" onclick="toggleLike()"></i>\n' +
-		'</button>\n' +
-		'</div>\n' +
-		'<span class="like"><b id="storyLikeCount-1">3 </b>likes</span>\n' +
+
+
+
+		'<span class="like"><b id="storyLikeCount-'+ boardId +'">3 </b>likes</span>\n' +
 		'<div class="sl__item__contents__content">\n' +
 		'<p>' + content + '</p>\n' +
 		'</div>\n' +
-		'<div id="storyCommentList-1">\n' +
-		'<div class="sl__item__contents__comment" id="storyCommentItem-1">\n' +
+		'<div id="storyCommentList-'+ boardId +'">\n' +
+		'<div class="sl__item__contents__comment" id="storyCommentItem-'+ boardId +'">\n' +
 		'<p>\n' +
 		'<b>Lovely :</b> 부럽습니다.\n' +
 		'</p>\n' +
-		'<button>\n' +
+		'<button type="button" onclick="deleteComment('+ boardId +')">\n' +
 		'<i class="fas fa-times"></i>\n' +
 		'</button>\n' +
 		'</div>\n' +
 		'</div>\n' +
 		'<div class="sl__item__input">\n' +
-		'<input type="text" placeholder="댓글 달기..." id="storyCommentInput-1" />\n' +
-		'<button type="button" onClick="addComment()">게시</button>\n' +
+		'<input type="text" placeholder="댓글 달기..." id="storyCommentInput-'+ boardId +'" />\n' +
+		'<button type="button" onClick="addComment('+ boardId +')">게시</button>\n' +
 		'</div>\n' +
 		'</div>\n' +
 		'</div>'
@@ -92,21 +95,41 @@ $(window).scroll(() => {
 
 
 // (3) 좋아요, 안좋아요
-function toggleLike() {
-	let likeIcon = $("#storyLikeIcon-1");
+function toggleLike(boardId) {
+	let likeIcon = $("#storyLikeIcon-" + boardId);
 	if (likeIcon.hasClass("far")) {
-		likeIcon.addClass("fas");
-		likeIcon.addClass("active");
-		likeIcon.removeClass("far");
+		$.ajax({
+			url: "/api/like/board/"+ boardId,
+			type: "post",
+			data: "",
+			dataType: "json"
+		}).done(res=>{
+			likeIcon.addClass("fas");
+			likeIcon.addClass("active");
+			likeIcon.removeClass("far");
+			console.log(res, "좋아요 api 성공")
+		}).fail(error=>{
+			console.log(error, "좋아요 api 실패")
+		});
 	} else {
-		likeIcon.removeClass("fas");
-		likeIcon.removeClass("active");
-		likeIcon.addClass("far");
+		$.ajax({
+			url: "/api/like/board/" + boardId,
+			type: "delete",
+			data: "",
+			dataType: "json"
+		}).done(res=>{
+			likeIcon.removeClass("fas");
+			likeIcon.removeClass("active");
+			likeIcon.addClass("far");
+			console.log(res, "좋아요 취소 api 성공")
+		}).fail(error=>{
+			console.log(error, "좋아요 취소 api 실패")
+		});
 	}
 }
 
 // (4) 댓글쓰기
-function addComment() {
+function addComment(boardId) {
 
 	let commentInput = $("#storyCommentInput-1");
 	let commentList = $("#storyCommentList-1");
@@ -134,8 +157,8 @@ function addComment() {
 }
 
 // (5) 댓글 삭제
-function deleteComment() {
-
+function deleteComment(boardId) {
+	console.log("deleteComment_"+boardId)
 }
 
 

@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import project.myinstagram.dto.user.SignUpDTO;
 import project.myinstagram.entity.User;
-import project.myinstagram.repository.UserRepository;
+import project.myinstagram.repository.user.UserRepository;
 
 @Service
 @RequiredArgsConstructor

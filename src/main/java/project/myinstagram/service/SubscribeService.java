@@ -3,13 +3,11 @@ package project.myinstagram.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import project.myinstagram.dto.SubscribeDTO;
 import project.myinstagram.entity.Subscribe;
 import project.myinstagram.entity.User;
 import project.myinstagram.repository.subscribe.SubscribeRepository;
-import project.myinstagram.repository.UserRepository;
+import project.myinstagram.repository.user.UserRepository;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
