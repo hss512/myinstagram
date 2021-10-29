@@ -15,7 +15,6 @@ function storyLoad() {
 		url: "api/board?page=" + page,
 		dataType: "json"
 	}).done(res=>{
-		/*console.log(res.data)*/
 		res.data.content.forEach((data)=>{
 			console.log(data)
 			$("#storyList").append(getStoryItem(data));
@@ -31,18 +30,27 @@ function getStoryItem(data) {
 
 	let boardId = data.id;
 	let image = data.imageUrl;
+	let likeCheckNum = data.likeCheck;
 	let content = data.content;
 	let likeCount = data.likeCount;
-	let boardUserId = data.userDTO.id;
 	let boardUsername = data.userDTO.name;
 	let boardUserUsername = data.userDTO.username;
 	let boardUserProfileImage = data.userDTO.profileImage;
 
-	let likeCheck = '<div class="sl__item__contents__icon">\n' +
-		'<button>\n' +
-		'<i class="fas fa-heart active" id="storyLikeIcon-'+ boardId +'" onclick="toggleLike('+ boardId +')"></i>\n' +
-		'</button>\n' +
-		'</div>\n';
+	let likeCheck;
+	if(likeCheckNum === 1) {
+		likeCheck = '<div class="sl__item__contents__icon">\n' +
+			'<button>\n' +
+			'<i class="fas fa-heart active" id="storyLikeIcon-' + boardId + '" onclick="toggleLike(' + boardId + ')"></i>\n' +
+			'</button>\n' +
+			'</div>\n';
+	}else{
+		likeCheck = '<div class="sl__item__contents__icon">\n' +
+			'<button>\n' +
+			'<i class="far fa-heart" id="storyLikeIcon-' + boardId + '" onclick="toggleLike(' + boardId + ')"></i>\n' +
+			'</button>\n' +
+			'</div>\n';
+	}
 
 	let list = '<div class="story-list__item">\n' +
 		'<div class="sl__item__header">\n' +
@@ -56,9 +64,9 @@ function getStoryItem(data) {
 		'</div>\n' +
 		'<div class="sl__item__contents">\n' +
 
+		likeCheck+
 
-
-		'<span class="like"><b id="storyLikeCount-'+ boardId +'">3 </b>likes</span>\n' +
+		'<span class="like"><b id="storyLikeCount-'+ boardId +'">좋아요 '+ likeCount +'개 </b></span>\n' +
 		'<div class="sl__item__contents__content">\n' +
 		'<p>' + content + '</p>\n' +
 		'</div>\n' +
@@ -87,7 +95,9 @@ $(window).scroll(() => {
 
 	let scroll = $(window).scrollTop() - ($(document).height() - $(window).height())
 
-	if(scroll < 1 && scroll > -1){
+	console.log(scroll)
+
+	if(scroll < -499 && scroll > -501){
 		page++;
 		storyLoad();
 	}
@@ -97,6 +107,8 @@ $(window).scroll(() => {
 // (3) 좋아요, 안좋아요
 function toggleLike(boardId) {
 	let likeIcon = $("#storyLikeIcon-" + boardId);
+	let likeCount = $("#storyLikeCount-" + boardId);
+
 	if (likeIcon.hasClass("far")) {
 		$.ajax({
 			url: "/api/like/board/"+ boardId,
@@ -107,6 +119,7 @@ function toggleLike(boardId) {
 			likeIcon.addClass("fas");
 			likeIcon.addClass("active");
 			likeIcon.removeClass("far");
+			likeCount.empty().prepend("좋아요 " + res.data + "개");
 			console.log(res, "좋아요 api 성공")
 		}).fail(error=>{
 			console.log(error, "좋아요 api 실패")
@@ -121,6 +134,7 @@ function toggleLike(boardId) {
 			likeIcon.removeClass("fas");
 			likeIcon.removeClass("active");
 			likeIcon.addClass("far");
+			likeCount.empty().prepend("좋아요 " + res.data + "개");
 			console.log(res, "좋아요 취소 api 성공")
 		}).fail(error=>{
 			console.log(error, "좋아요 취소 api 실패")
@@ -131,8 +145,8 @@ function toggleLike(boardId) {
 // (4) 댓글쓰기
 function addComment(boardId) {
 
-	let commentInput = $("#storyCommentInput-1");
-	let commentList = $("#storyCommentList-1");
+	let commentInput = $("#storyCommentInput-" + boardId);
+	let commentList = $("#storyCommentList-" + boardId);
 
 	let data = {
 		content: commentInput.val()
@@ -143,17 +157,28 @@ function addComment(boardId) {
 		return;
 	}
 
-	let content = `
-			  <div class="sl__item__contents__comment" id="storyCommentItem-2""> 
-			    <p>
-			      <b>GilDong :</b>
-			      댓글 샘플입니다.
-			    </p>
-			    <button><i class="fas fa-times"></i></button>
-			  </div>
-	`;
-	commentList.prepend(content);
-	commentInput.val("");
+	console.log(data)
+
+	$.ajax({
+		url: "/api/reply/board/" + boardId,
+		type: "post",
+		data: data,
+		dataType: "json"
+	}).done(res=>{
+		console.log(res);
+		let content = '<div class="sl__item__contents__comment" id="storyCommentItem-' + boardId + '"> \n' +
+			'<p>\n' +
+			'<b>'+ res.data.username +' :</b>\n' +
+			res.data.content +
+			'</p>\n' +
+			'<button><i class="fas fa-times"></i></button>\n' +
+			'</div>';
+		commentList.prepend(content);
+		commentInput.val("");
+
+	}).fail(error=>{
+		console.log(error, "reply api error");
+	});
 }
 
 // (5) 댓글 삭제

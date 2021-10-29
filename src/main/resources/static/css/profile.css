@@ -181,6 +181,7 @@
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   grid-gap: 28px;
+  margin-bottom: 15px;
 }
 #tab-content #tab-1-content .tab-1-content-inner .img-box {
   position: relative;

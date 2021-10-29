@@ -7,12 +7,17 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import project.myinstagram.dto.board.BoardJsonDTO;
 import project.myinstagram.dto.board.QBoardJsonDTO;
+import project.myinstagram.entity.Board;
+import project.myinstagram.entity.Likes;
+import project.myinstagram.entity.QReply;
 
 import javax.persistence.EntityManager;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static project.myinstagram.entity.QBoard.board;
+import static project.myinstagram.entity.QReply.*;
 import static project.myinstagram.entity.QSubscribe.subscribe;
 
 public class BoardCustomRepositoryImpl implements BoardCustomRepository{
@@ -26,18 +31,38 @@ public class BoardCustomRepositoryImpl implements BoardCustomRepository{
     @Override
     public Page<BoardJsonDTO> getBoardList(Long id, Pageable pageable) {
 
-        QueryResults<BoardJsonDTO> result = queryFactory
+        QueryResults<Board> boardResult = queryFactory
+                .selectFrom(board)
+                .where(board.user.id.eq(id).or(board.user.id.eq(subscribe.toUser.id)))
+                .leftJoin(subscribe).on(subscribe.fromUser.id.eq(id))
+                .distinct()
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
+                .orderBy(board.createdDate.desc())
+                .fetchResults();
+
+        List<Board> boardResults = boardResult.getResults();
+
+        List<BoardJsonDTO> boardList = new ArrayList<>();
+
+        for (Board board : boardResults) {
+            boardList.add(board.toJsonDTO());
+        }
+
+        long total = boardResult.getTotal();
+
+        /*QueryResults<BoardJsonDTO> result = queryFactory
                 .select(new QBoardJsonDTO(
                         board.id,
                         board.imageUrl,
                         board.content,
                         board.user,
-                        board.likeCount,
+                        board.likesList.size(),
                         board.createdDate
                 ))
                 .from(board)
                 .where(board.user.id.eq(id).or(board.user.id.eq(subscribe.toUser.id)))
-                .join(subscribe).on(subscribe.fromUser.id.eq(id))
+                .leftJoin(subscribe).on(subscribe.fromUser.id.eq(id))
                 .distinct()
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
@@ -45,7 +70,7 @@ public class BoardCustomRepositoryImpl implements BoardCustomRepository{
                 .fetchResults();
 
         List<BoardJsonDTO> boardList = result.getResults();
-        long total = result.getTotal();
+        long total = result.getTotal();*/
 
         return new PageImpl<>(boardList, pageable, total);
     }

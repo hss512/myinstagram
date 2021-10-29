@@ -17,8 +17,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import project.myinstagram.dto.ValidateDTO;
 import project.myinstagram.dto.board.BoardJsonDTO;
+import project.myinstagram.entity.Likes;
 import project.myinstagram.principal.CustomUserDetails;
 import project.myinstagram.service.BoardService;
+import project.myinstagram.service.LikeService;
+import project.myinstagram.service.ReplyService;
 import project.myinstagram.service.SubscribeService;
 
 import java.io.File;
@@ -37,7 +40,9 @@ public class BoardApiController {
 
     private final BoardService boardService;
 
-    private final SubscribeService subscribeService;
+    private final LikeService likeService;
+
+    private final ReplyService replyService;
 
     @GetMapping("/board/image")
     public ResponseEntity<byte[]> getImage(String username, String fileName, String boardId){
@@ -80,19 +85,30 @@ public class BoardApiController {
 
     @GetMapping("/board")
     public ResponseEntity<?> getBoardList(@AuthenticationPrincipal CustomUserDetails userDetails,
-                                          @PageableDefault(size = 5, sort = "createDate", direction = Sort.Direction.ASC) Pageable pageable,
-                                          String page){
-
-        int pageNumber = Integer.parseInt(page);
+                                          @PageableDefault(size = 5, sort = "createDate", direction = Sort.Direction.ASC) Pageable pageable){
 
         Long userId = userDetails.getUserDTO().getId();
 
         log.info("userId={}",userId);
 
+        List<Likes> likesList = likeService.likeCheck(userId);
+
         Page<BoardJsonDTO> boardList = boardService.getBoardList(userId, pageable);
 
+        for (BoardJsonDTO boardJsonDTO : boardList) {
+            for (Likes likes : likesList) {
+                if(likes.getBoard().getId().equals(boardJsonDTO.getId())){
+                    boardJsonDTO.setLikeCheck(1);
+                }else {
+                    if(boardJsonDTO.getLikeCheck() != 1) {
+                        boardJsonDTO.setLikeCheck(0);
+                    }
+                }
+            }
+        }
+
         for (BoardJsonDTO board : boardList) {
-            log.info("board={}",board.getUserDTO());
+            log.info("board={}",board.toString());
         }
 
         return new ResponseEntity<>(new ValidateDTO<>(1, "BoardListApi", boardList), HttpStatus.OK);

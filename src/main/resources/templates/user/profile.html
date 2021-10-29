@@ -22,7 +22,7 @@
 			</th:block>
 			<th:block th:unless="${userDetails.id} == ${pageUser.id}">
 			<div class="profile-img-wrap story-border">
-				<img class="profile-image" th:src="@{/api/image(username=${pageUser.username},fileName=${pageUser   .profileImage})}" id="userProfileImage" />
+				<img class="profile-image" th:src="@{/api/image(username=${pageUser.username},fileName=${pageUser.profileImage})}" th:onerror="@{/images/non.jpg}" id="userProfileImage" />
 			</div>
 			</th:block>
 		</div>
