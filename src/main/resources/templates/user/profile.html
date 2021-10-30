@@ -81,7 +81,8 @@
 						<a href=""> <img th:src="@{${'/api/board/image/?username=' + board.user.username + '&fileName=' + board.imageUrl + '&boardId=' + board.id}}" />
 						</a>
 						<div class="comment">
-							<a href="#" class=""> <i class="fas fa-heart"></i><span>0</span>
+							<a href="#" class=""> <i class="fas fa-heart"></i><span>[[${board.likesList.size}]]</span>
+								<i class="fas fa-comment"></i><span id="commentIcon">[[${board.replyList.size}]]</span>
 							</a>
 						</div>
 					</div>
@@ -126,5 +127,5 @@
 </div>
 <script type="text/javascript" th:src="@{/js/profile.js}"></script>
 </body>
-<footer th:replace="/layout/footer :: footer"></footer>
+<div th:replace="/layout/footer :: footer"></div>
 </html>

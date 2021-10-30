@@ -119,4 +119,9 @@ public class BoardService {
 
         return boardRepository.getBoardList(id, pageable);
     }
+
+    public Page<BoardJsonDTO> getExploreBoard(Pageable pageable) {
+
+        return boardRepository.getExploreBoard(pageable);
+    }
 }

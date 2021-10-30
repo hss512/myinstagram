@@ -7,4 +7,6 @@ import project.myinstagram.dto.board.BoardJsonDTO;
 public interface BoardCustomRepository {
 
     Page<BoardJsonDTO> getBoardList(Long id, Pageable pageable);
+
+    Page<BoardJsonDTO> getExploreBoard(Pageable pageable);
 }

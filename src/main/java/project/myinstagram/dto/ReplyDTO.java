@@ -11,6 +11,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class ReplyDTO {
 
+    private Long replyId;
+
     private Long userId;
 
     private String username;

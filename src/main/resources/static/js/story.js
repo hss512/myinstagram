@@ -37,6 +37,21 @@ function getStoryItem(data) {
 	let boardUserUsername = data.userDTO.username;
 	let boardUserProfileImage = data.userDTO.profileImage;
 
+	let reply = "";
+
+	data.replyList.forEach((data)=> {
+		reply += '<div id="storyCommentList-'+ boardId +'">\n' +
+			'<div class="sl__item__contents__comment" id="storyCommentItem-'+ data.replyId +'">\n' +
+			'<p>\n' +
+			'<a href="/user/' + data.userId + '"><b>'+ data.username +'</b></a> ' + data.content + '\n' +
+			'</p>\n' +
+			'<button type="button" onclick="deleteComment('+ data.replyId +')">\n' +
+			'<i class="fas fa-times"></i>\n' +
+			'</button>\n' +
+			'</div>\n' +
+			'</div>\n';
+	})
+
 	let likeCheck;
 	if(likeCheckNum === 1) {
 		likeCheck = '<div class="sl__item__contents__icon">\n' +
@@ -68,18 +83,11 @@ function getStoryItem(data) {
 
 		'<span class="like"><b id="storyLikeCount-'+ boardId +'">좋아요 '+ likeCount +'개 </b></span>\n' +
 		'<div class="sl__item__contents__content">\n' +
-		'<p>' + content + '</p>\n' +
-		'</div>\n' +
-		'<div id="storyCommentList-'+ boardId +'">\n' +
-		'<div class="sl__item__contents__comment" id="storyCommentItem-'+ boardId +'">\n' +
-		'<p>\n' +
-		'<b>Lovely :</b> 부럽습니다.\n' +
-		'</p>\n' +
-		'<button type="button" onclick="deleteComment('+ boardId +')">\n' +
-		'<i class="fas fa-times"></i>\n' +
-		'</button>\n' +
-		'</div>\n' +
-		'</div>\n' +
+		'<b>' + boardUserUsername + ' </b>'+ content + '\n' +
+		'</div>' +
+
+		reply+
+
 		'<div class="sl__item__input">\n' +
 		'<input type="text" placeholder="댓글 달기..." id="storyCommentInput-'+ boardId +'" />\n' +
 		'<button type="button" onClick="addComment('+ boardId +')">게시</button>\n' +
@@ -182,8 +190,20 @@ function addComment(boardId) {
 }
 
 // (5) 댓글 삭제
-function deleteComment(boardId) {
-	console.log("deleteComment_"+boardId)
+function deleteComment(replyId) {
+
+	console.log("deleteComment_"+replyId)
+
+	$.ajax({
+		url: "/api/reply/" + replyId,
+		type: "delete",
+		dataType: "json"
+	}).done(res=>{
+		console.log(res.data)
+		$("#storyCommentItem-"+res.data).empty()
+	}).fail(error=>{
+		console.log(error, "reply api error")
+	})
 }
 
 

@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<div th:replace="/layout/header :: header"></div>
+<!--인기 게시글-->
+<main class="popular">
+	<section id="tab-content">
+		<!--게시물컨컨테이너-->
+		<div class="profileContainer">
+			<!--그냥 감싸는 div (지우면이미지커짐)-->
+			<div id="tab-1-content" class="tab-content-item show">
+				<!--게시물컨 그리드배열-->
+				<div class="tab-1-content-inner">
+
+				</div>
+			</div>
+		</div>
+	</section>
+</main>
+<div th:replace="/layout/footer :: footer"></div>
+<script type="text/javascript" th:src="@{/js/explore.js}"></script>
+</html>
+

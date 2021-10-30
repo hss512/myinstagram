@@ -1,18 +1,15 @@
 package project.myinstagram.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import project.myinstagram.dto.board.BoardDTO;
+import lombok.*;
 import project.myinstagram.dto.board.BoardJsonDTO;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Entity
-@Getter
+@Getter @ToString
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
@@ -38,13 +35,14 @@ public class Board extends BaseEntity{
     private List<Reply> replyList = new ArrayList<>();
 
     public BoardJsonDTO toJsonDTO(){
+
         return BoardJsonDTO.builder()
                 .id(this.id)
                 .content(this.content)
                 .imageUrl(this.imageUrl)
                 .userDTO(this.user.toDTO())
                 .likeCount(this.likesList.size())
-                .replyList(this.replyList)
+                .replyList(this.replyList.stream().map(Reply::toViewDTO).collect(Collectors.toList()))
                 .build();
     }
 }

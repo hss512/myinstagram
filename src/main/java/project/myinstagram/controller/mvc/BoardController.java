@@ -37,9 +37,17 @@ public class BoardController {
 
         boardService.boardUpload(boardDTO, userDetails.getUserDTO());
 
-        model.addAttribute("userDetail", userDetails);
+        model.addAttribute("userDetails", userDetails.getUserDTO());
 
         return "redirect:/user/" + userDetails.getUserDTO().getId();
     }
 
+    @GetMapping("/explore")
+    public String explore(@AuthenticationPrincipal CustomUserDetails userDetails,
+                          Model model){
+
+        model.addAttribute("userDetails", userDetails.getUserDTO());
+
+        return "/board/explore";
+    }
 }

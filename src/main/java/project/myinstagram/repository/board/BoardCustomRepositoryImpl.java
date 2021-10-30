@@ -14,10 +14,11 @@ import project.myinstagram.entity.QReply;
 import javax.persistence.EntityManager;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import static project.myinstagram.entity.QBoard.board;
-import static project.myinstagram.entity.QReply.*;
 import static project.myinstagram.entity.QSubscribe.subscribe;
 
 public class BoardCustomRepositoryImpl implements BoardCustomRepository{
@@ -46,31 +47,35 @@ public class BoardCustomRepositoryImpl implements BoardCustomRepository{
         List<BoardJsonDTO> boardList = new ArrayList<>();
 
         for (Board board : boardResults) {
+            Collections.reverse(board.getReplyList());
             boardList.add(board.toJsonDTO());
         }
 
         long total = boardResult.getTotal();
 
-        /*QueryResults<BoardJsonDTO> result = queryFactory
-                .select(new QBoardJsonDTO(
-                        board.id,
-                        board.imageUrl,
-                        board.content,
-                        board.user,
-                        board.likesList.size(),
-                        board.createdDate
-                ))
-                .from(board)
-                .where(board.user.id.eq(id).or(board.user.id.eq(subscribe.toUser.id)))
-                .leftJoin(subscribe).on(subscribe.fromUser.id.eq(id))
-                .distinct()
+        return new PageImpl<>(boardList, pageable, total);
+    }
+
+    @Override
+    public Page<BoardJsonDTO> getExploreBoard(Pageable pageable){
+
+        QueryResults<Board> boardResult = queryFactory
+                .selectFrom(board)
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
-                .orderBy(board.createdDate.desc())
+                .orderBy(board.likesList.size().desc(), board.createdDate.desc())
                 .fetchResults();
 
-        List<BoardJsonDTO> boardList = result.getResults();
-        long total = result.getTotal();*/
+        List<Board> boardResults = boardResult.getResults();
+
+        List<BoardJsonDTO> boardList = new ArrayList<>();
+
+        for (Board board : boardResults) {
+            Collections.reverse(board.getReplyList());
+            boardList.add(board.toJsonDTO());
+        }
+
+        long total = boardResult.getTotal();
 
         return new PageImpl<>(boardList, pageable, total);
     }

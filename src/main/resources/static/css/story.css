@@ -121,6 +121,7 @@
   .sl__item__contents
   .sl__item__contents__content {
   padding: 5px 15px;
+  margin-bottom: 8px;
 }
 
 /*게시물 like 갯수스타일*/
@@ -168,6 +169,15 @@
   font-size: 16px;
   padding: 0 15px;
   margin-bottom: 5px;
+}
+.sl__item__contents__comment a{
+  text-align: center;
+  text-decoration: none;
+  color: inherit;
+}
+
+.sl__item__contents__comment a:hover {
+  text-decoration: underline;
 }
 
 /*댓글 삭제버튼*/

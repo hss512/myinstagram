@@ -85,7 +85,7 @@ public class BoardApiController {
 
     @GetMapping("/board")
     public ResponseEntity<?> getBoardList(@AuthenticationPrincipal CustomUserDetails userDetails,
-                                          @PageableDefault(size = 5, sort = "createDate", direction = Sort.Direction.ASC) Pageable pageable){
+                                          @PageableDefault(size = 9, sort = "createDate", direction = Sort.Direction.ASC) Pageable pageable){
 
         Long userId = userDetails.getUserDTO().getId();
 
@@ -112,5 +112,13 @@ public class BoardApiController {
         }
 
         return new ResponseEntity<>(new ValidateDTO<>(1, "BoardListApi", boardList), HttpStatus.OK);
+    }
+
+    @GetMapping("/board/all")
+    public ResponseEntity<?> getExploreBoard(@PageableDefault(size = 9, sort = "likeCount", direction = Sort.Direction.ASC) Pageable pageable){
+
+        Page<BoardJsonDTO> result = boardService.getExploreBoard(pageable);
+
+        return new ResponseEntity<>(new ValidateDTO<>(1, "explore api", result), HttpStatus.OK);
     }
 }

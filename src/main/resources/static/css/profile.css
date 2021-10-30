@@ -214,7 +214,14 @@
   color: #fff;
 }
 #tab-content #tab-1-content .tab-1-content-inner .img-box .comment a i {
-  margin-right: 10px;
+  margin-right: 7px;
+  margin-left: 5px;
+}
+.comment a span{
+  margin-right: 33px;
+}
+.comment a span#commentIcon{
+  margin-right: 0;
 }
 
 /* Sub2 */

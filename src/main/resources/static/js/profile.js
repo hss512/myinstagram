@@ -186,12 +186,6 @@ function profileImageUpload(id) {
 			dataType: "json"
 		}).done(res=>{
 			console.log("유저 이미지 ajax 성공 | " + res.data)
-			// 사진 전송 성공시 이미지 변경
-			/*let reader = new FileReader();
-			reader.onload = (e) => {
-				$("#userProfileImage").attr("src", e.target.result);
-			}
-			reader.readAsDataURL(f); // 이 코드 실행시 reader.onload 실행됨.|*/
 			location.reload();
 		}).fail(error=>{
 			console.log("유저 이미지 ajax 실패 | " + error)

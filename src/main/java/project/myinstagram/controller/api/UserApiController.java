@@ -46,8 +46,6 @@ public class UserApiController {
             Map<String, String> errorMap = new HashMap<>();
             for (FieldError fieldError : bindingResult.getFieldErrors()) {
                 errorMap.put(fieldError.getField(), fieldError.getDefaultMessage());
-                log.error(fieldError.getDefaultMessage());
-                System.out.println("userDTO = " + userDTO);
             }
         }
         SignUpDTO updateUser = userService.userUpdate(userDetails.getUserDTO().getId(), userDTO);
@@ -91,8 +89,6 @@ public class UserApiController {
 
         } catch (Exception e) {
             try {
-                log.error(e.getMessage());
-
                 File file = new File(uploadPath + "non.jpg");
 
                 HttpHeaders header = new HttpHeaders();
