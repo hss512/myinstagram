@@ -20,7 +20,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
         registry
                 .addResourceHandler("/study/**")
                 .addResourceLocations("file:///"+uploadFolder)
-                .setCachePeriod(60*10*6) // 1시간 캐시
+                .setCachePeriod(60*10*3) // 30분 캐시
                 .resourceChain(true)
                 .addResolver(new PathResourceResolver());
 

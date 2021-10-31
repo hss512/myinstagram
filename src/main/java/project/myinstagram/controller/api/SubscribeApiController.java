@@ -2,6 +2,9 @@ package project.myinstagram.controller.api;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -25,13 +28,14 @@ public class SubscribeApiController {
 
     @GetMapping("/subscribes/{pageUserId}/{userId}")
     public ResponseEntity<?> getSubscribeList(@PathVariable Long pageUserId,
-                                              @PathVariable String userId){
+                                              @PathVariable String userId,
+                                              @PageableDefault(size = 10) Pageable pageable){
 
         int checkNum = -1;
 
-        List<Subscribe> pageUserSubscribe = subscribeService.getSubscribeList(pageUserId);
+        Page<Subscribe> pageUserSubscribe = subscribeService.getSubscribeList(pageUserId, pageable);
 
-        List<Subscribe> userSubscribe = subscribeService.getSubscribeList(Long.parseLong(userId));
+        Page<Subscribe> userSubscribe = subscribeService.getSubscribeList(Long.parseLong(userId), pageable);
 
         List<UserDTO> subscribeDTO = new ArrayList<>();
 

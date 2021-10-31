@@ -78,13 +78,14 @@
 			<div class="tab-1-content-inner">
 				<th:block th:each="board : ${boardList}">
 					<div class="img-box">
-						<a href=""> <img th:src="@{${'/api/board/image/?username=' + board.user.username + '&fileName=' + board.imageUrl + '&boardId=' + board.id}}" />
-						</a>
-						<div class="comment">
-							<a href="#" class=""> <i class="fas fa-heart"></i><span>[[${board.likesList.size}]]</span>
+						<img th:src="@{${'/api/board/image/?username=' + board.user.username + '&fileName=' + board.imageUrl + '&boardId=' + board.id}}" />
+
+						<div class="comment" th:onclick="'location.href=\''+ @{/p/board/} +@{${board.id}}+'\';'">
+							<a> <i class="fas fa-heart"></i><span>[[${board.likesList.size}]]</span>
 								<i class="fas fa-comment"></i><span id="commentIcon">[[${board.replyList.size}]]</span>
 							</a>
 						</div>
+
 					</div>
 				</th:block>
 			</div>
@@ -122,6 +123,9 @@
 			</button>
 		</div>
 		<div class="subscribe-list" id="subscribeModalList">
+			<ul class="subscribe-list__ul">
+
+			</ul>
 		</div>
 	</div>
 </div>

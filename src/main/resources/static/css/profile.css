@@ -206,7 +206,7 @@
   cursor: pointer;
   opacity: 0;
 }
-#tab-content #tab-1-content .tab-1-content-inner .img-box:hover .comment {
+#tab-content #tab-1-content .tab-1-content-inner .img-box .comment:hover {
   background: rgba(0, 0, 0, 0.6);
   opacity: 1;
 }
@@ -334,7 +334,7 @@
   justify-content: center;
 }
 .modal-subscribe .subscribe {
-  width: 600px;
+  width: 450px;
   height: 500px;
   background-color: #fff;
   border-radius: 10px;
@@ -380,12 +380,17 @@
   height: 50px;
   border-radius: 50%;
 }
-.modal-subscribe .subscribe .subscribe-list .subscribe__item .subscribe__text {
-  padding-top: 5px;
-}
 .modal-subscribe .subscribe .subscribe-list .subscribe__item .subscribe__text h2 {
-  font-size: 16px;
-  line-height: 50px;
+  font-size: 17px;
+  text-align: left;
+}
+.modal-subscribe .subscribe .subscribe-list .subscribe__item .subscribe__text h3 {
+  font-size: 13px;
+  padding-bottom: 7px;
+  padding-top: 3px;
+  background-color: transparent;
+  border: 0;
+  color: #8e8e8e;
 }
 .modal-subscribe .subscribe .subscribe-list .subscribe__item .subscribe__btn {
   margin-left: auto;

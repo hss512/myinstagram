@@ -9,4 +9,6 @@ public interface SubscribeRepository extends JpaRepository<Subscribe, Long>, Sub
     /*List<Subscribe> findALlByFromUserId(Long id);*/
 
     Subscribe findByFromUserIdAndToUserId(Long id, Long toUserId);
+
+    List<Subscribe> findAllByFromUserId(Long id);
 }

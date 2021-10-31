@@ -1,6 +1,10 @@
 package project.myinstagram.repository.subscribe;
 
+import com.querydsl.core.QueryResults;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import project.myinstagram.entity.QSubscribe;
 import project.myinstagram.entity.QUser;
 import project.myinstagram.entity.Subscribe;
@@ -20,14 +24,22 @@ public class SubscribeCustomRepositoryImpl implements SubscribeCustomRepository{
     }
 
     @Override
-    public List<Subscribe> getSubscribeList(Long pageUserId){
+    public Page<Subscribe> getSubscribeList(Long pageUserId, Pageable pageable){
 
-        return queryFactory
+        QueryResults<Subscribe> results = queryFactory
                 .selectFrom(subscribe)
                 .where(subscribe.fromUser.id.eq(pageUserId))
                 .leftJoin(subscribe.toUser, user)
                 .fetchJoin()
-                .fetch();
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
+                .fetchResults();
+
+        List<Subscribe> subscribeList = results.getResults();
+
+        long total = results.getTotal();
+
+        return new PageImpl<>(subscribeList, pageable, total);
     }
 
 }

@@ -11,6 +11,7 @@ import project.myinstagram.principal.CustomUserDetails;
 import project.myinstagram.dto.user.SignUpDTO;
 import project.myinstagram.entity.Board;
 import project.myinstagram.entity.Subscribe;
+import project.myinstagram.repository.subscribe.SubscribeRepository;
 import project.myinstagram.repository.user.UserRepository;
 import project.myinstagram.service.BoardService;
 import project.myinstagram.service.SubscribeService;
@@ -25,6 +26,7 @@ public class UserController {
     private final UserRepository userRepository;
     private final SubscribeService subscribeService;
     private final BoardService boardService;
+    private final SubscribeRepository subscribeRepository;
 
     @GetMapping("/user/{id}")
     public String userPage(@PathVariable Long id,
@@ -32,7 +34,8 @@ public class UserController {
                            Model model){
 
         SignUpDTO pageUserDTO = userRepository.findById(id).get().toSignUpDTO().pageUserDTO();
-        List<Subscribe> subscribeList = subscribeService.getSubscribeList(pageUserDTO.getId());
+        /*List<Subscribe> subscribeList = subscribeService.getSubscribeList(pageUserDTO.getId());*/
+        List<Subscribe> subscribeList = subscribeRepository.findAllByFromUserId(pageUserDTO.getId());
         List<Board> boardList = boardService.getMyBoardList(id);
         int followCheck = subscribeService.followCheck(id, userDetails.getUserDTO().getId().toString());
 

@@ -70,9 +70,11 @@ function getStoryItem(data) {
 	let list = '<div class="story-list__item">\n' +
 		'<div class="sl__item__header">\n' +
 		'<div>\n' +
+		'<a href="/user/'+ data.userDTO.id +'">'+
 		'<img class="profile-image" src="/api/image/?username='+ boardUserUsername + "&fileName=" + boardUserProfileImage +'"/>\n' +
+		'</a>' +
 		'</div>\n' +
-		'<div>' + boardUsername +'</div>\n' +
+		'<a href="/user/' + data.userDTO.id + '">'+ boardUserUsername +'</a>\n'+
 		'</div>\n' +
 		'<div class="sl__item__img">\n' +
 		'<img src="/api/board/image/?username='+ boardUserUsername + "&fileName=" + image + "&boardId=" + boardId +'" />\n' +
@@ -83,7 +85,7 @@ function getStoryItem(data) {
 
 		'<span class="like"><b id="storyLikeCount-'+ boardId +'">좋아요 '+ likeCount +'개 </b></span>\n' +
 		'<div class="sl__item__contents__content">\n' +
-		'<b>' + boardUserUsername + ' </b>'+ content + '\n' +
+		'<a href="/user/' + data.userDTO.id + '">'+ '<b>' + boardUserUsername + '</b>' +'</a> '+ content + '\n' +
 		'</div>' +
 
 		reply+
@@ -176,7 +178,7 @@ function addComment(boardId) {
 		console.log(res);
 		let content = '<div class="sl__item__contents__comment" id="storyCommentItem-' + boardId + '"> \n' +
 			'<p>\n' +
-			'<b>'+ res.data.username +' :</b>\n' +
+			'<b>'+ res.data.username +' </b>\n' +
 			res.data.content +
 			'</p>\n' +
 			'<button><i class="fas fa-times"></i></button>\n' +

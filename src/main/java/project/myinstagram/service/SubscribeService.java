@@ -1,6 +1,8 @@
 package project.myinstagram.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import project.myinstagram.entity.Subscribe;
@@ -19,8 +21,8 @@ public class SubscribeService {
     private final UserRepository userRepository;
 
     @Transactional(readOnly = true)
-    public List<Subscribe> getSubscribeList(Long id) {
-        List<Subscribe> subscribeList = subscribeRepository.getSubscribeList(id);
+    public Page<Subscribe> getSubscribeList(Long id, Pageable pageable) {
+        Page<Subscribe> subscribeList = subscribeRepository.getSubscribeList(id, pageable);
         return subscribeList;
     }
 

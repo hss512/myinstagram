@@ -3,6 +3,8 @@ package project.myinstagram.service;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import project.myinstagram.entity.Subscribe;
 import project.myinstagram.repository.subscribe.SubscribeRepository;
 
@@ -16,7 +18,7 @@ public class SubscribeRepositoryTest {
 
     @Test
     public void getList(){
-        List<Subscribe> subscribeList = subscribeRepository.getSubscribeList(2L);
+        Page<Subscribe> subscribeList = subscribeRepository.getSubscribeList(2L, Pageable.unpaged());
 
         for (Subscribe subscribe : subscribeList) {
             System.out.println("subscribe = " + subscribe.getToUser().getName());

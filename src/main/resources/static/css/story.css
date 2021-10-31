@@ -39,6 +39,7 @@
 /*리스트 아이템 헤더 div*/
 .main .container .story-list .story-list__item .sl__item__header div {
   margin-left: 10px;
+  margin-right: 10px;
 }
 
 /*리스트 아이템 헤더 이미지영역 박스*/
@@ -170,6 +171,15 @@
   padding: 0 15px;
   margin-bottom: 5px;
 }
+
+.sl__item__contents__content a{
+  text-align: center;
+  text-decoration: none;
+  color: inherit;
+}
+.sl__item__contents__content a:hover {
+  text-decoration: underline;
+}
 .sl__item__contents__comment a{
   text-align: center;
   text-decoration: none;
@@ -177,6 +187,16 @@
 }
 
 .sl__item__contents__comment a:hover {
+  text-decoration: underline;
+}
+
+.sl__item__header a{
+  text-align: center;
+  text-decoration: none;
+  color: inherit;
+}
+
+.sl__item__header a:hover{
   text-decoration: underline;
 }
 

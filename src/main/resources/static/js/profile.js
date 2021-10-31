@@ -10,6 +10,9 @@
   (8) 구독자 정보 모달 닫기
  */
 
+let page = 0;
+
+
 // (1) 유저 프로파일 페이지 구독하기, 구독취소
 function toggleSubscribe(obj, fromUserId, toUserId) {
 
@@ -49,14 +52,34 @@ function toggleSubscribe(obj, fromUserId, toUserId) {
 // (2) 구독자 정보  모달 보기
 function subscribeInfoModalOpen(pageUserId, userId) {
 	$(".modal-subscribe").css("display", "flex");
+	$("body").css("overflow", "hidden")
+	$(".header").css("overflow", "hidden")
 
+	followLoad(pageUserId, userId, page);
+
+	$(".subscribe-list").scroll(() => {
+
+		let scroll = $(".subscribe-list__ul").height() - $(".subscribe-list").scrollTop()
+
+		console.log(scroll)
+
+		if(scroll < 450 && scroll > 448){
+			page++;
+			console.log(page)
+			followLoad(pageUserId, userId, page);
+		}
+	});
+}
+
+function followLoad(pageUserId, userId){
+	console.log("followLoad api 호출")
 	$.ajax({
-		url: "/api/subscribes/" + pageUserId + "/" + userId,
+		url: "/api/subscribes/" + pageUserId + "/" + userId + "?page=" + page,
 		type: "get"
 	}).done(res=>{
 		console.log(res)
 		res.data.forEach((u)=>{
-			$("#subscribeModalList").append(getSubscribeModalItem(u, userId));
+			$(".subscribe-list__ul").append(getSubscribeModalItem(u, userId));
 		})
 	}).fail(error=>{
 		console.log(error, '구독리스트 api 에러')
@@ -71,12 +94,12 @@ function getSubscribeModalItem(obj, userId) {
 	console.log("followCheck : " + state);
 
 	let followBtn =
-		'<div class="subscribe__item" id="subscribeModalItem-1">' +
+		'<div class="subscribe__item" id="subscribeModalItem-'+ obj.id +'">' +
 		'<div class="subscribe__img">' +
 		'<img src="/api/image/?username=' + obj.username + '&fileName=' + obj.profileImage +'">' +
 		'</div>' +
 		'<div class="subscribe__text">' +
-		'<h2>'+ obj.username + '</h2>' + '<h3>'+ obj.name + '</h3>' +
+		'<div class="sl__item__header"><a href="/user/'+ obj.id +'"><h2>'+ obj.username + '</h2></a></div>' + '<h3>'+ obj.name + '</h3>' +
 		'</div>' +
 		'<div class="subscribe__btn">' +
 		'<button class="cta blue" onclick="toggleSubscribeModal(this, ' + obj.id + ',' + userId +')">언팔로우</button>' +
@@ -84,12 +107,12 @@ function getSubscribeModalItem(obj, userId) {
 		'</div>';
 
 	let unfollowBtn =
-		'<div class="subscribe__item" id="subscribeModalItem-1">' +
+		'<div class="subscribe__item" id="subscribeModalItem-'+ obj.id +'">' +
 		'<div class="subscribe__img">' +
 		'<img src="/api/image/?username=' + obj.username + '&fileName=' + obj.profileImage +'">' +
 		'</div>' +
 		'<div class="subscribe__text">' +
-		'<h2>'+ obj.username + '</h2>' + '<h3>'+ obj.name + '</h3>' +
+		'<div class="sl__item__header"><a href="/user/'+ obj.id +'"><h2>'+ obj.username + '</h2></a></div>' + '<h3>'+ obj.name + '</h3>' +
 		'</div>' +
 		'<div class="subscribe__btn">' +
 		'<button class="cta blue" onclick="toggleSubscribeModal(this, ' + obj.id + ',' + userId +')">팔로우</button>' +
@@ -97,15 +120,14 @@ function getSubscribeModalItem(obj, userId) {
 		'</div>';
 
 		let nonBtn =
-		'<div class="subscribe__item" id="subscribeModalItem-1">' +
+		'<div class="subscribe__item" id="subscribeModalItem-'+ obj.id +'">' +
 		'<div class="subscribe__img">' +
 		'<img src="/api/image/?username=' + obj.username + '&fileName=' + obj.profileImage +'">' +
 		'</div>' +
 		'<div class="subscribe__text">' +
-		'<h2>'+ obj.username + '</h2>' + '<h3>'+ obj.name + '</h3>' +
+		'<div class="sl__item__header"><a href="/user/'+ obj.id +'"><h2>'+ obj.username + '</h2></a></div>' + '<h3>'+ obj.name + '</h3>' +
 		'</div>' +
 		'<div class="subscribe__btn">' +
-		'</div>' +
 		'</div>';
 
 	if(state === 1){
