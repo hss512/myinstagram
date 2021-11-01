@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import project.myinstagram.dto.board.BoardJsonDTO;
 import project.myinstagram.principal.CustomUserDetails;
 import project.myinstagram.dto.user.SignUpDTO;
 import project.myinstagram.entity.Board;
@@ -36,7 +37,7 @@ public class UserController {
         SignUpDTO pageUserDTO = userRepository.findById(id).get().toSignUpDTO().pageUserDTO();
         /*List<Subscribe> subscribeList = subscribeService.getSubscribeList(pageUserDTO.getId());*/
         List<Subscribe> subscribeList = subscribeRepository.findAllByFromUserId(pageUserDTO.getId());
-        List<Board> boardList = boardService.getMyBoardList(id);
+        List<BoardJsonDTO> boardList = boardService.getMyBoardList(id);
         int followCheck = subscribeService.followCheck(id, userDetails.getUserDTO().getId().toString());
 
 

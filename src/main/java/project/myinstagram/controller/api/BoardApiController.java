@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import project.myinstagram.dto.ValidateDTO;
@@ -31,7 +32,6 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api")
 @Slf4j
 public class BoardApiController {
 
@@ -44,7 +44,7 @@ public class BoardApiController {
 
     private final ReplyService replyService;
 
-    @GetMapping("/board/image")
+    @GetMapping("/api/board/image")
     public ResponseEntity<byte[]> getImage(String username, String fileName, String boardId){
 
         ResponseEntity<byte[]> image = null;
@@ -83,7 +83,7 @@ public class BoardApiController {
         return image;
     }
 
-    @GetMapping("/board")
+    @GetMapping("/api/board")
     public ResponseEntity<?> getBoardList(@AuthenticationPrincipal CustomUserDetails userDetails,
                                           @PageableDefault(size = 9, sort = "createDate", direction = Sort.Direction.ASC) Pageable pageable){
 
@@ -114,11 +114,20 @@ public class BoardApiController {
         return new ResponseEntity<>(new ValidateDTO<>(1, "BoardListApi", boardList), HttpStatus.OK);
     }
 
-    @GetMapping("/board/all")
+    @GetMapping("/api/board/all")
     public ResponseEntity<?> getExploreBoard(@PageableDefault(size = 9, sort = "likeCount", direction = Sort.Direction.ASC) Pageable pageable){
 
         Page<BoardJsonDTO> result = boardService.getExploreBoard(pageable);
 
         return new ResponseEntity<>(new ValidateDTO<>(1, "explore api", result), HttpStatus.OK);
+    }
+
+    @GetMapping("/p/board/{boardId}")
+    public ResponseEntity<?> getModalBoard(@PathVariable("boardId") String boardId,
+                                           @AuthenticationPrincipal CustomUserDetails userDetails){
+
+        BoardJsonDTO board = boardService.getModalBoard(Long.parseLong(boardId), userDetails.getUserDTO());
+
+        return new ResponseEntity<>(new ValidateDTO<>(1, "modalBoard", board), HttpStatus.OK);
     }
 }

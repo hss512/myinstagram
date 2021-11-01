@@ -29,6 +29,7 @@ public class Reply {
 
     public ReplyDTO toDTO(Long userId, Long boardId, String username){
         return ReplyDTO.builder()
+                .replyId(id)
                 .content(content)
                 .boardId(boardId)
                 .userId(userId)

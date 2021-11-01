@@ -7,6 +7,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import project.myinstagram.dto.board.BoardJsonDTO;
 import project.myinstagram.dto.board.QBoardJsonDTO;
+import project.myinstagram.dto.user.SignUpDTO;
 import project.myinstagram.entity.Board;
 import project.myinstagram.entity.Likes;
 import project.myinstagram.entity.QReply;
@@ -79,4 +80,19 @@ public class BoardCustomRepositoryImpl implements BoardCustomRepository{
 
         return new PageImpl<>(boardList, pageable, total);
     }
+
+    /*@Override
+    public BoardJsonDTO getModalBoard(Long boardId, SignUpDTO userDTO){
+
+        queryFactory
+                .select(new QBoardJsonDTO(
+                        board.id,
+                        board.imageUrl,
+                        board.content,
+
+                ))
+                .from(board)
+                .where(board.id.eq(boardId))
+                .fetch();
+    }*/
 }

@@ -77,11 +77,11 @@
 			<!--게시물컨 그리드배열-->
 			<div class="tab-1-content-inner">
 				<th:block th:each="board : ${boardList}">
-					<div class="img-box">
-						<img th:src="@{${'/api/board/image/?username=' + board.user.username + '&fileName=' + board.imageUrl + '&boardId=' + board.id}}" />
+					<div class="img-box" th:id="'board-' + ${board.id}" th:onclick="|javascript:boardModalOpen(${board.id}, ${board.userDTO.id});|">
+						<img th:src="@{${'/api/board/image/?username=' + board.userDTO.username + '&fileName=' + board.imageUrl + '&boardId=' + board.id}}" />
 
-						<div class="comment" th:onclick="'location.href=\''+ @{/p/board/} +@{${board.id}}+'\';'">
-							<a> <i class="fas fa-heart"></i><span>[[${board.likesList.size}]]</span>
+						<div class="comment">
+							<a> <i class="fas fa-heart"></i><span>[[${board.likeCount}]]</span>
 								<i class="fas fa-comment"></i><span id="commentIcon">[[${board.replyList.size}]]</span>
 							</a>
 						</div>
@@ -126,6 +126,48 @@
 			<ul class="subscribe-list__ul">
 
 			</ul>
+		</div>
+	</div>
+</div>
+
+<div class="modal-board">
+	<div class="modal-board-close">
+		<button onclick="modalClose()">
+			<i class="fas fa-times fa-2x">
+			</i>
+		</button>
+	</div>
+	<div class="board">
+		<div class="board-img">
+		</div>
+		<div class="board-contents" id="">
+			<div class="board-contents-user">
+				<div class="board-contents-user-info">
+					<div class="p-board-user-img">
+
+					</div>
+					<div class="p-board-user-username">
+
+					</div>
+				</div>
+			</div>
+			<div class="board-contents-info">
+
+			</div>
+			<div class="sl__item__contents">
+				<div class="sl__item__contents__icon">
+
+				</div>
+				<span class="like">
+
+				</span>
+				<div class="sl__item__contents__content">
+
+				</div>
+				<div class="sl__item__input">
+
+				</div>
+			</div>
 		</div>
 	</div>
 </div>

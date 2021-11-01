@@ -3,6 +3,7 @@ package project.myinstagram.dto.board;
 import lombok.*;
 import project.myinstagram.dto.ReplyDTO;
 import project.myinstagram.dto.user.UserDTO;
+import project.myinstagram.entity.Likes;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -26,6 +27,8 @@ public class BoardJsonDTO{
     private LocalDateTime createdDate;
 
     private int likeCheck;
+
+    /*private List<Likes> likesList;*/
 
     private List<ReplyDTO> replyList;
 }

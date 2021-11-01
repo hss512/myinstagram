@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Entity
-@Getter @ToString
+@Getter
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
@@ -43,6 +43,7 @@ public class Board extends BaseEntity{
                 .userDTO(this.user.toDTO())
                 .likeCount(this.likesList.size())
                 .replyList(this.replyList.stream().map(Reply::toViewDTO).collect(Collectors.toList()))
+                /*.likesList(this.likesList)*/
                 .build();
     }
 }

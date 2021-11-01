@@ -215,6 +215,30 @@ function profileImageUpload(id) {
 	});
 }
 
+// 게시물 모달창
+function boardModalOpen(boardId, userId) {
+
+	$(".modal-board").css("display", "flex");
+	$("body").css("overflow", "hidden")
+	$(".header").css("overflow", "hidden")
+	$(".board-img").prepend($("#board-" + boardId).children()[0])
+
+	$.ajax({
+		url: "/p/board/" + boardId,
+		type: "get",
+		dataType: "json"
+	}).done(res=>{
+		console.log(res.data);
+		let username = res.data.userDTO.username
+		let profileImage = res.data.userDTO.profileImage
+		$(".p-board-user-username").prepend(res.data.userDTO.username)
+		$(".p-board-user-img").prepend('<img class="profile-image" src="/api/image/?username='+ username +'&fileName='+ profileImage +'" onerror="/images/non.jpg">')
+	}).fail(error=>{
+		console.log(error);
+	})
+	$(".p-board-user-img").prepend()
+}
+
 
 // (5) 사용자 정보 메뉴 열기 닫기
 function popup(obj) {

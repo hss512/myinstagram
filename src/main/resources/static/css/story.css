@@ -53,7 +53,7 @@
   height: 40px;
   padding: 3px;
   border-radius: 50%;
-  position: relative;
+  /*position: relative;        수정 */
 }
 
 /*리스트 아이템 헤더 실제이미지*/
@@ -245,6 +245,6 @@
 }
 
 .profile-image {
-  border: 2px solid #8a3ab8;
+  /*border: 2px solid #8a3ab8;*/
 }
 

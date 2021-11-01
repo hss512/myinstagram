@@ -21,6 +21,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -37,9 +38,17 @@ public class BoardService {
 
     private final SubscribeService subscribeService;
 
-    public List<Board> getMyBoardList(Long id) {
+    public List<BoardJsonDTO> getMyBoardList(Long id) {
 
-        return boardRepository.findALlByUserId(id);
+        List<BoardJsonDTO> boardDtoList = new ArrayList<>();
+
+        List<Board> boardList = boardRepository.findALlByUserId(id);
+
+        for (Board board : boardList) {
+            boardDtoList.add(board.toJsonDTO());
+        }
+
+        return boardDtoList;
     }
 
     public void boardUpload(BoardDTO boardDTO, SignUpDTO userDTO) {
@@ -123,5 +132,12 @@ public class BoardService {
     public Page<BoardJsonDTO> getExploreBoard(Pageable pageable) {
 
         return boardRepository.getExploreBoard(pageable);
+    }
+
+    public BoardJsonDTO getModalBoard(Long boardId, SignUpDTO userDTO) {
+
+        Board findBoard = boardRepository.findById(boardId).get();
+
+        return findBoard.toJsonDTO();
     }
 }

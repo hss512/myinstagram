@@ -40,7 +40,7 @@ function getStoryItem(data) {
 	let reply = "";
 
 	data.replyList.forEach((data)=> {
-		reply += '<div id="storyCommentList-'+ boardId +'">\n' +
+		reply +=
 			'<div class="sl__item__contents__comment" id="storyCommentItem-'+ data.replyId +'">\n' +
 			'<p>\n' +
 			'<a href="/user/' + data.userId + '"><b>'+ data.username +'</b></a> ' + data.content + '\n' +
@@ -48,7 +48,6 @@ function getStoryItem(data) {
 			'<button type="button" onclick="deleteComment('+ data.replyId +')">\n' +
 			'<i class="fas fa-times"></i>\n' +
 			'</button>\n' +
-			'</div>\n' +
 			'</div>\n';
 	})
 
@@ -87,9 +86,9 @@ function getStoryItem(data) {
 		'<div class="sl__item__contents__content">\n' +
 		'<a href="/user/' + data.userDTO.id + '">'+ '<b>' + boardUserUsername + '</b>' +'</a> '+ content + '\n' +
 		'</div>' +
-
+		'<div id="storyCommentList-'+ boardId +'">\n' +
 		reply+
-
+		'</div>'+
 		'<div class="sl__item__input">\n' +
 		'<input type="text" placeholder="댓글 달기..." id="storyCommentInput-'+ boardId +'" />\n' +
 		'<button type="button" onClick="addComment('+ boardId +')">게시</button>\n' +
@@ -176,13 +175,14 @@ function addComment(boardId) {
 		dataType: "json"
 	}).done(res=>{
 		console.log(res);
-		let content = '<div class="sl__item__contents__comment" id="storyCommentItem-' + boardId + '"> \n' +
+		let content = '<div class="sl__item__contents__comment" id="storyCommentItem-' + res.data.replyId + '"> \n' +
 			'<p>\n' +
 			'<b>'+ res.data.username +' </b>\n' +
 			res.data.content +
 			'</p>\n' +
-			'<button><i class="fas fa-times"></i></button>\n' +
+			'<button><i class="fas fa-times" onclick="deleteComment('+res.data.replyId+')"></i></button>\n' +
 			'</div>';
+		console.log(content)
 		commentList.prepend(content);
 		commentInput.val("");
 
@@ -202,7 +202,7 @@ function deleteComment(replyId) {
 		dataType: "json"
 	}).done(res=>{
 		console.log(res.data)
-		$("#storyCommentItem-"+res.data).empty()
+		$("#storyCommentItem-"+replyId).empty()
 	}).fail(error=>{
 		console.log(error, "reply api error")
 	})
