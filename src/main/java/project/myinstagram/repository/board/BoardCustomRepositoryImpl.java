@@ -49,7 +49,9 @@ public class BoardCustomRepositoryImpl implements BoardCustomRepository{
 
         for (Board board : boardResults) {
             Collections.reverse(board.getReplyList());
-            boardList.add(board.toJsonDTO());
+            BoardJsonDTO boardDTO = board.toJsonDTO();
+            boardDTO.setCreatedDate(board.createdDate);
+            boardList.add(boardDTO);
         }
 
         long total = boardResult.getTotal();
@@ -73,26 +75,13 @@ public class BoardCustomRepositoryImpl implements BoardCustomRepository{
 
         for (Board board : boardResults) {
             Collections.reverse(board.getReplyList());
-            boardList.add(board.toJsonDTO());
+            BoardJsonDTO boardDTO = board.toJsonDTO();
+            boardDTO.setCreatedDate(board.createdDate);
+            boardList.add(boardDTO);
         }
 
         long total = boardResult.getTotal();
 
         return new PageImpl<>(boardList, pageable, total);
     }
-
-    /*@Override
-    public BoardJsonDTO getModalBoard(Long boardId, SignUpDTO userDTO){
-
-        queryFactory
-                .select(new QBoardJsonDTO(
-                        board.id,
-                        board.imageUrl,
-                        board.content,
-
-                ))
-                .from(board)
-                .where(board.id.eq(boardId))
-                .fetch();
-    }*/
 }

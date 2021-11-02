@@ -30,5 +30,7 @@ public class BoardJsonDTO{
 
     /*private List<Likes> likesList;*/
 
+    private String time;
+
     private List<ReplyDTO> replyList;
 }

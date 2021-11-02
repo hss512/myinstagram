@@ -7,6 +7,10 @@
   src: url(../fonts/billabong.ttf);
 }
 
+body{
+  background-color: #fafafa;
+
+}
 
 .profileContainer {
   display: flex;
@@ -384,35 +388,83 @@
   padding: 14px 16px;
   display: flex;
 }
-
-.p-board-user-img{
+.p-board-modal-user-img{
   width: 33px;
+  height: 33px;
   margin-right: 18px;
 }
 .p-board-user-img .profile-image{
-  width: 100%;
-  height: 100%;
+  width: 33px;
+  height: 33px;
+  margin-right: 18px;
   border-radius: 50%;
 }
-.p-board-user-username{
-  width: 357px;
+.p-board-modal-item{
+  width: 100%;
+  height: 100%;
+  display: flex;
 }
 
-.p-board-user-img, .p-board-user-username{
+.p-board-user-img{
   height: 100%;
+  width: 40px;
+  margin-right: 9px;
 }
 
 .modal-board .board .board-contents .board-contents-info{
   width: 500px;
-  height: 694px;
+  height: 698px;
   border-left: 1px solid rgba(var(--ce3, 239, 239, 239), 1);
   border-bottom: 1px solid rgba(var(--ce3, 239, 239, 239), 1);
 }
-.modal-board .board .board-contents .sl__item__contents__content{
-  width: 500px;
-  height: 166px;
-  border-left: 1px solid rgba(var(--ce3, 239, 239, 239), 1);
+
+.modal-board .board .board-contents .sl__item__contents .sl__item__contents__icon{
+  width: 100%;
+  height: 50px;
+  padding: 4px 16px 4px 13px;
 }
+.modal-board .board .board-contents .sl__item__contents .likeCount{
+  width: 100%;
+  margin-bottom: 2px;
+}
+
+.modal-board .board .board-contents .sl__item__contents .likeCount .like{
+  width: 100%;
+  height: 18px;
+  padding: 0 16px 0 16px;
+  background-color: transparent;
+  border: 0;
+  color: black;
+  font-size: 14px;
+}
+.modal-board .board .board-contents .sl__item__contents .betweenTime{
+  width: 100%;
+  margin-bottom: 14px;
+}
+.modal-board .board .board-contents .sl__item__contents .betweenTime-time{
+  width: 100%;
+  height: 18px;
+  padding: 0 16px 0 16px;
+  background-color: transparent;
+  border: 0;
+  color: #aaa;
+  font-size: 11px;
+  letter-spacing: 1px;
+}
+
+.modal-heart-icon{
+  border: 0;
+  padding: 8px 8px 8px 0px;
+  background-color: white;
+  width: 40px;
+  height: 40px;
+  font-size: 24px;
+}
+
+.modal-heart-icon .far .fa-heart{
+  width: 100%;
+}
+
 .modal-subscribe .subscribe{
   width: 450px;
   height: 500px;
@@ -521,6 +573,36 @@
   border-bottom: 1px solid #dbdbdb;
 }
 
+/* 댓글 입력창*/
+.modal-board .board .board-contents .sl__item__contents .sl__item__input {
+  display: flex;
+  height: 53px;
+  width: 100%;
+  padding: 6px 16px;
+  border-top: 1px solid rgba(var(--ce3, 239, 239, 239), 1);
+}
+
+/*입력 인풋*/
+.modal-board .board .board-contents .sl__item__contents .sl__item__input input {
+  flex: 9;
+  height: 100%;
+  border: 0;
+  text-decoration-color: rgba(var(--ce3, 239, 239, 239), 1);
+}
+/* 입력하기 버튼 */
+.modal-board .board .board-contents .sl__item__contents .sl__item__input button {
+  flex: 1;
+  height: 100%;
+  border: 0;
+  background-color: transparent;
+  font-weight: 500;
+  color: #0095f6;
+  font-size: 14px;
+}
+.modal-board .board .board-contents .sl__item__contents .sl__item__contents__icon .modal-heart-icon .active {
+  color: red;
+}
+
 /* Animation */
 @keyframes loading {
   100% {
@@ -535,4 +617,32 @@
   .profileContainer {
     width: 100%;
   }
+}
+
+
+
+
+
+
+.modal-board .board .board-contents .board-contents-info {
+  overflow: hidden;
+  overflow-y: auto;
+}
+.modal-board .board .board-contents .board-contents-info .board-modal-comments-list .board-modal-item {
+  display: flex;
+  height: auto;
+  padding: 10px 10px 10px 16px;
+}
+.modal-board .board .board-contents .board-contents-info .board-modal-comments-list .board-modal-item .p-board-user-comment{
+  word-break: break-all;
+  font-size: 14px;
+}
+.p-board-user-username {
+  margin-right: 7px; font-size: 14px;
+  font-weight: bold;
+}
+.modal-board .board .board-contents .board-contents-info .board-modal-comments-list .board-modal-item .subscribe__btn {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
 }

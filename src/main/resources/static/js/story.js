@@ -202,7 +202,12 @@ function deleteComment(replyId) {
 		dataType: "json"
 	}).done(res=>{
 		console.log(res.data)
-		$("#storyCommentItem-"+replyId).empty()
+		if(res.data === 1){
+			$("#storyCommentItem-"+replyId).empty()
+			console.log("댓글 삭제 성공!")
+		}else{
+			console.log("자신의 댓글만 삭제가 가능합니다")
+		}
 	}).fail(error=>{
 		console.log(error, "reply api error")
 	})

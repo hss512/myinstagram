@@ -1,15 +1,3 @@
-/**
-  1. 유저 프로파일 페이지
-  (1) 유저 프로파일 페이지 구독하기, 구독취소
-  (2) 구독자 정보 모달 보기
-  (3) 구독자 정보 모달에서 구독하기, 구독취소
-  (4) 유저 프로필 사진 변경
-  (5) 사용자 정보 메뉴 열기 닫기
-  (6) 사용자 정보(회원정보, 로그아웃, 닫기) 모달
-  (7) 사용자 프로파일 이미지 메뉴(사진업로드, 취소) 모달 
-  (8) 구독자 정보 모달 닫기
- */
-
 let page = 0;
 
 
@@ -229,16 +217,81 @@ function boardModalOpen(boardId, userId) {
 		dataType: "json"
 	}).done(res=>{
 		console.log(res.data);
-		let username = res.data.userDTO.username
-		let profileImage = res.data.userDTO.profileImage
-		$(".p-board-user-username").prepend(res.data.userDTO.username)
-		$(".p-board-user-img").prepend('<img class="profile-image" src="/api/image/?username='+ username +'&fileName='+ profileImage +'" onerror="/images/non.jpg">')
+		let likeIcon = $("#modalLikeIcon").attr("id", "modalLikeIcon-" + res.data.id)
+		$(".modal-heart-icon").attr("onclick", "toggleLike(" + res.data.id + ")")
+		let username = res.data.userDTO.username;
+		let profileImage = res.data.userDTO.profileImage;
+		$("#boardUserUsername").prepend(res.data.userDTO.username)
+		$("#boardUserImg").prepend('<img class="profile-image" src="/api/image/?username='+ username +'&fileName='+ profileImage +'" onerror="/images/non.jpg">')
+		$(".like").prepend("<b id='modalLikeCount'>좋아요 " + res.data.likeCount + "개</b>")
+		$(".betweenTime-time").prepend(res.data.time)
+		if(res.data.likeCheck === 1){
+			likeIcon.addClass("fas");
+			likeIcon.addClass("active");
+			likeIcon.removeClass("far");
+		}
+
+		res.data.replyList.forEach((obj)=> {
+
+			let item = '<div class="board-modal-item" id="board-modal-item-'+ obj.replyId +'">' +
+				'<div class="p-board-user-img" id="commentUserImg-'+ obj.replyId +'">' +
+				'<img class="profile-image" src="/api/image/?username='+ obj.username +'&fileName='+ obj.profileImage +'" onerror="/images/non.jpg">' +
+				'</div>' +
+				'<div class="p-board-modal-item">'+
+				'<div class="p-board-user-username" id="modal-user-Username-'+ obj.replyId +'">'+
+				obj.username+
+				'</div>'+
+				'<div class="p-board-user-comment" id="modal-user-comment-'+ obj.replyId +'">'+
+				obj.content
+				'</div>'+
+				'</div>'+
+				'</div>';
+
+			$(".subscribe-list__ul").prepend(item);
+		})
+
 	}).fail(error=>{
 		console.log(error);
 	})
 	$(".p-board-user-img").prepend()
 }
 
+function toggleLike(boardId) {
+	let likeIcon = $("#modalLikeIcon-" + boardId);
+	let likeCount = $("#modalLikeCount")
+
+	if (likeIcon.hasClass("far")) {
+		$.ajax({
+			url: "/api/like/board/"+ boardId,
+			type: "post",
+			data: "",
+			dataType: "json"
+		}).done(res=>{
+			likeIcon.addClass("fas");
+			likeIcon.addClass("active");
+			likeIcon.removeClass("far");
+			likeCount.empty().prepend("좋아요 " + res.data + "개");
+			console.log(res, "좋아요 api 성공")
+		}).fail(error=>{
+			console.log(error, "좋아요 api 실패")
+		});
+	} else {
+		$.ajax({
+			url: "/api/like/board/" + boardId,
+			type: "delete",
+			data: "",
+			dataType: "json"
+		}).done(res=>{
+			likeIcon.removeClass("fas");
+			likeIcon.removeClass("active");
+			likeIcon.addClass("far");
+			likeCount.empty().prepend("좋아요 " + res.data + "개");
+			console.log(res, "좋아요 취소 api 성공")
+		}).fail(error=>{
+			console.log(error, "좋아요 취소 api 실패")
+		});
+	}
+}
 
 // (5) 사용자 정보 메뉴 열기 닫기
 function popup(obj) {
@@ -260,7 +313,7 @@ function modalImage() {
 	$(".modal-image").css("display", "none");
 }
 
-// (8) 구독자 정보 모달 닫기
+// (8) 모달 닫기
 function modalClose() {
 	$(".modal-subscribe").css("display", "none");
 	location.reload();

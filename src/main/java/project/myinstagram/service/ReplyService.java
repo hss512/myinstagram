@@ -38,11 +38,11 @@ public class ReplyService {
         return savedReply.toDTO(findUser.getId(), findBoard.getId(), findUser.getUsername());
     }
 
-    public int deleteReply(Long replyId) {
+    public int deleteReply(Long replyId, Long userId) {
 
         Reply findReply = replyRepository.findById(replyId).get();
 
-        if(findReply != null) {
+        if(findReply.getReplyUser().getId().equals(userId)){
             replyRepository.delete(findReply);
             return 1;
         }else{

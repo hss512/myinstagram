@@ -45,6 +45,7 @@ public class Reply {
                 .userId(this.replyUser.getId())
                 .boardId(this.replyBoard.getId())
                 .content(this.content)
+                .profileImage(replyUser.getProfileImage())
                 .build();
     }
 }

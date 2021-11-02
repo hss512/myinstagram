@@ -16,14 +16,14 @@
 						<input type="file" name="profileImageFile" style="display: none;"
 						       id="userProfileImageInput" />
 					</form>
-						<img class="profile-image" th:src="@{/api/image/(username=${pageUser.username},fileName=${pageUser.profileImage})}"
-						     th:onerror="@{/images/non.jpg}" id="userProfileImage" />
+					<img class="profile-image" th:src="@{/api/image/(username=${pageUser.username},fileName=${pageUser.profileImage})}"
+					     th:onerror="@{/images/non.jpg}" id="userProfileImage" />
 				</div>
 			</th:block>
 			<th:block th:unless="${userDetails.id} == ${pageUser.id}">
-			<div class="profile-img-wrap story-border">
-				<img class="profile-image" th:src="@{/api/image(username=${pageUser.username},fileName=${pageUser.profileImage})}" th:onerror="@{/images/non.jpg}" id="userProfileImage" />
-			</div>
+				<div class="profile-img-wrap story-border">
+					<img class="profile-image" th:src="@{/api/image(username=${pageUser.username},fileName=${pageUser.profileImage})}" th:onerror="@{/images/non.jpg}" id="userProfileImage" />
+				</div>
 			</th:block>
 		</div>
 		<!--유저이미지end-->
@@ -33,7 +33,7 @@
 			<div class="name-group">
 				<h2>[[${pageUser.name}]]</h2>
 				<th:block th:if="${pageUser.id} == ${userDetails.id}">
-				<button class="cta" th:onclick="'location.href=\''+ @{/board/upload}+'\';'">게시물 등록</button>
+					<button class="cta" th:onclick="'location.href=\''+ @{/board/upload}+'\';'">게시물 등록</button>
 				</th:block>
 				<th:block th:if="${pageUser.id} == ${userDetails.id}">
 				</th:block>
@@ -143,29 +143,36 @@
 		<div class="board-contents" id="">
 			<div class="board-contents-user">
 				<div class="board-contents-user-info">
-					<div class="p-board-user-img">
-
+					<div class="p-board-user-img" id="boardUserImg">
 					</div>
-					<div class="p-board-user-username">
-
+					<div class="p-board-user-username" id="boardUserUsername">
 					</div>
 				</div>
 			</div>
 			<div class="board-contents-info">
-
+				<div class="board-modal-comments-list">
+					<ul class="subscribe-list__ul">
+					</ul>
+				</div>
 			</div>
 			<div class="sl__item__contents">
 				<div class="sl__item__contents__icon">
-
+					<button class="modal-heart-icon">
+						<i class="far fa-heart" id="modalLikeIcon">
+						</i>
+					</button>
 				</div>
-				<span class="like">
-
-				</span>
-				<div class="sl__item__contents__content">
-
+				<div class="likeCount">
+					<span class="like">
+					</span>
+				</div>
+				<div class="betweenTime">
+					<time class="betweenTime-time">
+					</time>
 				</div>
 				<div class="sl__item__input">
-
+					<input type="text" placeholder="댓글 달기..." id="storyCommentInput-'+ boardId +'" />
+					<button type="button" onClick="addComment('+ boardId +')">게시</button>
 				</div>
 			</div>
 		</div>

@@ -21,6 +21,8 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -138,6 +140,30 @@ public class BoardService {
 
         Board findBoard = boardRepository.findById(boardId).get();
 
-        return findBoard.toJsonDTO();
+        BoardJsonDTO boardDTO = findBoard.toJsonDTO();
+
+        LocalDateTime nowTime = LocalDateTime.now();
+
+        LocalDateTime createdDate = findBoard.createdDate;
+
+        Duration timeBetween = Duration.between(createdDate, nowTime);
+
+        boardDTO.setCreatedDate(createdDate);
+
+        log.info("timeBetween={}",timeBetween.getSeconds());
+
+        long seconds = timeBetween.getSeconds();
+
+        if(seconds/60 == 0){
+            boardDTO.setTime("방금 전"); // 방금 전
+        }else if((seconds/60)/60 == 0){
+            boardDTO.setTime(seconds/60 + 1 + "분 전"); // x분 전
+        }else if(((seconds/60)/60)/24 == 0){
+            boardDTO.setTime((seconds/60)/60 + 1 + "시간 전"); // x 시간 전
+        }else if(((seconds/60)/60)/24 > 0){
+            boardDTO.setTime(((seconds/60)/60)/24 + 1 + "일 전"); // x일 전
+        }
+
+        return boardDTO;
     }
 }

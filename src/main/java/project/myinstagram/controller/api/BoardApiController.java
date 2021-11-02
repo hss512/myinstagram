@@ -126,7 +126,21 @@ public class BoardApiController {
     public ResponseEntity<?> getModalBoard(@PathVariable("boardId") String boardId,
                                            @AuthenticationPrincipal CustomUserDetails userDetails){
 
+        Long userId = userDetails.getUserDTO().getId();
+
         BoardJsonDTO board = boardService.getModalBoard(Long.parseLong(boardId), userDetails.getUserDTO());
+
+        List<Likes> likesList = likeService.likeCheck(userId);
+
+        for (Likes likes : likesList) {
+            if(likes.getUser().getId().equals(userId) && likes.getBoard().getId() == Long.parseLong(boardId)){
+                board.setLikeCheck(1);
+            }else {
+                if(board.getLikeCheck() != 1) {
+                    board.setLikeCheck(0);
+                }
+            }
+        }
 
         return new ResponseEntity<>(new ValidateDTO<>(1, "modalBoard", board), HttpStatus.OK);
     }

@@ -20,4 +20,6 @@ public class ReplyDTO {
     private Long boardId;
 
     private String content;
+
+    private String profileImage;
 }

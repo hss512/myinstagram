@@ -30,13 +30,14 @@ public class ReplyApiController {
     }
 
     @DeleteMapping("/reply/{replyId}")
-    public ResponseEntity<?> postReply(@PathVariable("replyId") String replyId){
+    public ResponseEntity<?> postReply(@PathVariable("replyId") String replyId,
+                                       @AuthenticationPrincipal CustomUserDetails userDetails){
 
-        int result = replyService.deleteReply(Long.parseLong(replyId));
+        int result = replyService.deleteReply(Long.parseLong(replyId), userDetails.getUserDTO().getId());
 
         if(result == 1) {
-            return new ResponseEntity<>(new ValidateDTO<>(1, "reply api success", replyId), HttpStatus.OK);
+            return new ResponseEntity<>(new ValidateDTO<>(1, "reply api success", 1), HttpStatus.OK);
         }else
-            return new ResponseEntity<>(new ValidateDTO<>(0, "reply api fail", result), HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(new ValidateDTO<>(0, "reply api fail", 0), HttpStatus.OK);
     }
 }
