@@ -51,6 +51,7 @@ public class SignUpDTO {
                 .username(this.username)
                 .name(this.name)
                 .password(this.password)
+                .profileImage(this.profileImage)
                 .email(this.email)
                 .role(this.role)
                 .build();

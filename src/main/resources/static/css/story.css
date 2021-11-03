@@ -171,7 +171,7 @@
   color: #000;
   font-size: 16px;
   padding: 0 15px;
-  margin-bottom: 5px;
+  margin-bottom: 7px;
 }
 
 .sl__item__contents__content a{
@@ -191,7 +191,9 @@
 .sl__item__contents__comment a:hover {
   text-decoration: underline;
 }
-
+.sl__item__header{
+  border-bottom: 1px solid #dbdbdb;
+}
 .sl__item__header a{
   text-align: center;
   text-decoration: none;
@@ -200,6 +202,20 @@
 
 .sl__item__header a:hover{
   text-decoration: underline;
+}
+
+#moreComment a span{
+  font-size: 13px;
+  color: #8e8e8e;
+}
+#moreComment a{
+  text-decoration: none;
+  margin-bottom: 5px;
+
+}
+
+#modal__board__contents{
+  border-left: 1px solid rgba(var(--ce3, 239, 239, 239), 1);
 }
 
 /*댓글 삭제버튼*/
@@ -214,6 +230,26 @@
 .main .container .story-list .story-list__item .sl__item__input {
   display: flex;
   border-top: 1px solid #dbdbdb;
+}
+
+.sl__item__input__modal {
+  display: flex;
+  border-top: 1px solid #dbdbdb;
+}
+.sl__item__input__modal input {
+  flex: 9;
+  height: 56px;
+  border: 0;
+  padding-left: 15px;
+}
+.sl__item__input__modal button {
+  flex: 1;
+  height: 56px;
+  border: 0;
+  background-color: transparent;
+  font-weight: 500;
+  color: #0095f6;
+  font-size: 14px;
 }
 
 /*입력 인풋*/

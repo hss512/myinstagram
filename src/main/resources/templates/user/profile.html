@@ -130,7 +130,7 @@
 	</div>
 </div>
 
-<div class="modal-board">
+<div class="modal-board" id="boardId-">
 	<div class="modal-board-close">
 		<button onclick="modalClose()">
 			<i class="fas fa-times fa-2x">
@@ -151,11 +151,11 @@
 			</div>
 			<div class="board-contents-info">
 				<div class="board-modal-comments-list">
-					<ul class="subscribe-list__ul">
+					<ul class="board-modal-list__ul">
 					</ul>
 				</div>
 			</div>
-			<div class="sl__item__contents">
+			<div class="sl__item__contents" id="modal__board__contents">
 				<div class="sl__item__contents__icon">
 					<button class="modal-heart-icon">
 						<i class="far fa-heart" id="modalLikeIcon">
@@ -171,8 +171,6 @@
 					</time>
 				</div>
 				<div class="sl__item__input">
-					<input type="text" placeholder="댓글 달기..." id="storyCommentInput-'+ boardId +'" />
-					<button type="button" onClick="addComment('+ boardId +')">게시</button>
 				</div>
 			</div>
 		</div>

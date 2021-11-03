@@ -217,6 +217,7 @@ function boardModalOpen(boardId, userId) {
 		dataType: "json"
 	}).done(res=>{
 		console.log(res.data);
+		$("#boardId-").attr("id", "boardId-" + res.data.id);
 		let likeIcon = $("#modalLikeIcon").attr("id", "modalLikeIcon-" + res.data.id)
 		$(".modal-heart-icon").attr("onclick", "toggleLike(" + res.data.id + ")")
 		let username = res.data.userDTO.username;
@@ -225,15 +226,32 @@ function boardModalOpen(boardId, userId) {
 		$("#boardUserImg").prepend('<img class="profile-image" src="/api/image/?username='+ username +'&fileName='+ profileImage +'" onerror="/images/non.jpg">')
 		$(".like").prepend("<b id='modalLikeCount'>좋아요 " + res.data.likeCount + "개</b>")
 		$(".betweenTime-time").prepend(res.data.time)
+		$(".sl__item__input").append('<input type="text" placeholder="댓글 달기..." id="storyCommentInput-'+ res.data.id +'" />\n'+'<button type="button" onClick="addComment('+ res.data.id +')">게시</button>');
 		if(res.data.likeCheck === 1){
 			likeIcon.addClass("fas");
 			likeIcon.addClass("active");
 			likeIcon.removeClass("far");
 		}
 
+		let item = '<div class="board-modal-item" id="board-modal-item-comment-'+ res.data.id +'">' +
+			'<div class="p-board-user-img" id="commentUserImg-'+ res.data.id +'">' +
+			'<img class="profile-image" src="/api/image/?username='+ res.data.userDTO.username +'&fileName='+ res.data.userDTO.profileImage +'" onerror="/images/non.jpg">' +
+			'</div>' +
+			'<div class="p-board-modal-item">'+
+			'<div class="p-board-user-username" id="modal-user-Username-'+ res.data.id +'">'+
+			res.data.userDTO.username+
+			'</div>'+
+			'<div class="p-board-user-comment" id="modal-user-comment-'+ res.data.id +'">'+
+			res.data.content+
+			'</div>'+
+			'</div>'+
+			'</div>';
+
+			$(".board-modal-list__ul").prepend(item);
+
 		res.data.replyList.forEach((obj)=> {
 
-			let item = '<div class="board-modal-item" id="board-modal-item-'+ obj.replyId +'">' +
+			item = '<div class="board-modal-item" id="board-modal-item-comment-'+ obj.replyId +'">' +
 				'<div class="p-board-user-img" id="commentUserImg-'+ obj.replyId +'">' +
 				'<img class="profile-image" src="/api/image/?username='+ obj.username +'&fileName='+ obj.profileImage +'" onerror="/images/non.jpg">' +
 				'</div>' +
@@ -242,12 +260,15 @@ function boardModalOpen(boardId, userId) {
 				obj.username+
 				'</div>'+
 				'<div class="p-board-user-comment" id="modal-user-comment-'+ obj.replyId +'">'+
-				obj.content
+				obj.content+
 				'</div>'+
 				'</div>'+
+				'<button type="button" onclick="deleteComment('+ obj.replyId +')">\n' +
+				'<i class="fas fa-times"></i>\n' +
+				'</button>\n'+
 				'</div>';
 
-			$(".subscribe-list__ul").prepend(item);
+			$(".board-modal-list__ul").append(item);
 		})
 
 	}).fail(error=>{
@@ -291,6 +312,75 @@ function toggleLike(boardId) {
 			console.log(error, "좋아요 취소 api 실패")
 		});
 	}
+}
+
+function addComment(boardId) {
+
+	let commentInput = $("#storyCommentInput-" + boardId);
+	let commentList = $(".board-modal-list__ul");
+
+	let data = {
+		content: commentInput.val()
+	}
+
+	console.log(data)
+
+	if (data.content === "") {
+		alert("댓글을 작성해주세요!");
+		return;
+	}
+
+	$.ajax({
+		url: "/api/reply/board/" + boardId,
+		type: "post",
+		data: data,
+		dataType: "json"
+	}).done(res=>{
+		console.log(res);
+		let content = '<div class="board-modal-item" id="board-modal-item-comment-'+ res.data.replyId +'">' +
+			'<div class="p-board-user-img" id="commentUserImg-'+ res.data.replyId +'">' +
+			'<img class="profile-image" src="/api/image/?username='+ res.data.username +'&fileName='+ res.data.profileImage +'" onerror="/images/non.jpg">' +
+			'</div>' +
+			'<div class="p-board-modal-item">'+
+			'<div class="p-board-user-username" id="modal-user-Username-'+ res.data.replyId +'">'+
+			res.data.username+
+			'</div>'+
+			'<div class="p-board-user-comment" id="modal-user-comment-'+ res.data.replyId +'">'+
+			res.data.content+
+			'</div>'+
+			'</div>'+
+			'<button type="button" onclick="deleteComment('+ res.data.replyId +')">\n' +
+			'<i class="fas fa-times"></i>\n' +
+			'</button>\n'+
+			'</div>';
+		console.log(content)
+		commentList.append(content);
+		commentInput.val("");
+
+	}).fail(error=>{
+		console.log(error, "reply api error");
+	});
+}
+
+function deleteComment(replyId) {
+
+	console.log("deleteComment_"+replyId)
+
+	$.ajax({
+		url: "/api/reply/" + replyId,
+		type: "delete",
+		dataType: "json"
+	}).done(res=>{
+		console.log(res.data)
+		if(res.data === 1){
+			$("#board-modal-item-comment-"+replyId).remove()
+			console.log("댓글 삭제 성공!")
+		}else{
+			alert("자신의 댓글만 삭제가 가능합니다")
+		}
+	}).fail(error=>{
+		console.log(error, "reply api error")
+	})
 }
 
 // (5) 사용자 정보 메뉴 열기 닫기

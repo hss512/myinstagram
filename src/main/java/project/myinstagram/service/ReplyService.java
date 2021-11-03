@@ -35,7 +35,7 @@ public class ReplyService {
 
         Reply savedReply = replyRepository.save(reply);
 
-        return savedReply.toDTO(findUser.getId(), findBoard.getId(), findUser.getUsername());
+        return savedReply.toViewDTO();
     }
 
     public int deleteReply(Long replyId, Long userId) {

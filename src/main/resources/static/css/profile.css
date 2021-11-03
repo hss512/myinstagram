@@ -400,9 +400,16 @@ body{
   border-radius: 50%;
 }
 .p-board-modal-item{
-  width: 100%;
+  width: 420px;
   height: 100%;
   display: flex;
+}
+.board-modal-item button{
+  width: 20px;
+  height: 20px;
+  background-color: white;
+  outline: none;
+  border: none;
 }
 
 .p-board-user-img{

@@ -10,7 +10,53 @@
 			</article>
 		</section>
 	</main>
-	<script src="/js/story.js"></script>
+	<div class="modal-board" id="boardId-">
+		<div class="modal-board-close">
+			<button onclick="modalClose()">
+				<i class="fas fa-times fa-2x">
+				</i>
+			</button>
+		</div>
+		<div class="board">
+			<div class="board-img">
+			</div>
+			<div class="board-contents" id="">
+				<div class="board-contents-user">
+					<div class="board-contents-user-info">
+						<div class="p-board-user-img" id="boardUserImg">
+						</div>
+						<div class="p-board-user-username" id="boardUserUsername">
+						</div>
+					</div>
+				</div>
+				<div class="board-contents-info">
+					<div class="board-modal-comments-list">
+						<ul class="board-modal-list__ul">
+						</ul>
+					</div>
+				</div>
+				<div class="sl__item__contents" id="modal__board__contents">
+					<div class="sl__item__contents__icon">
+						<button class="modal-heart-icon">
+							<i class="far fa-heart" id="modalLikeIcon">
+							</i>
+						</button>
+					</div>
+					<div class="likeCount">
+					<span class="like">
+					</span>
+					</div>
+					<div class="betweenTime">
+						<time class="betweenTime-time">
+						</time>
+					</div>
+					<div class="sl__item__input__modal">
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 </body>
+<script type="text/javascript" th:src="@{/js/story.js}"></script>
 <div th:replace="/layout/footer :: footer"></div>
 </html>
