@@ -38,8 +38,6 @@ public class BoardService {
 
     private final BoardRepository boardRepository;
 
-    private final SubscribeService subscribeService;
-
     public List<BoardJsonDTO> getMyBoardList(Long id) {
 
         List<BoardJsonDTO> boardDtoList = new ArrayList<>();
@@ -53,6 +51,7 @@ public class BoardService {
         return boardDtoList;
     }
 
+    @Transactional
     public void boardUpload(BoardDTO boardDTO, SignUpDTO userDTO) {
 
         String originalFilename = boardDTO.getFile().getOriginalFilename();

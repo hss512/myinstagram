@@ -97,7 +97,9 @@
   .sl__item__contents
   .sl__item__contents__icon {
   height: 40px;
-  padding: 6px;
+  padding: 8px;
+  margin-bottom: 6px;
+  margin-top: 6px;
 }
 
 /*좋아요 실제 버튼*/
@@ -124,7 +126,7 @@
   .sl__item__contents
   .sl__item__contents__content {
   padding: 5px 15px;
-  margin-bottom: 8px;
+  margin-bottom: 1px;
 }
 
 /*게시물 like 갯수스타일*/
@@ -135,7 +137,7 @@
   .sl__item__contents .like{
 	background-color: transparent;
 	border: 0;
-	color: #aaa;
+	color: #262626;
 	font-size: 14px;
 	margin-bottom: 5px;
 	text-indent: 15px;
@@ -147,6 +149,27 @@
   .story-list__item
 .sl__item__contents .like b{
 	margin-right: 5px;
+}
+
+.board
+.board-contents
+.sl__item__contents
+.likeCount
+span{
+  background-color: transparent;
+  border: 0;
+  color: black;
+  font-size: 14px;
+  margin-bottom: 5px;
+  text-indent: 15px;
+  margin-left: 16px;
+}
+.board
+.board-contents
+.sl__item__contents
+.likeCount
+span b{
+  margin-right: 5px;
 }
 
 /*태그영역*/
@@ -269,7 +292,14 @@
   color: #0095f6;
   font-size: 14px;
 }
+.board .sl__item__contents #main-board-modal-input input{
+  height: 53px;
+}
 
+
+.board .board-contents #modal__board__contents{
+  height: 162px;
+}
 /* Event */
 .main
   .container

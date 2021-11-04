@@ -54,8 +54,6 @@ public class BoardApiController {
 
             File file = new File(uploadPath + username + File.separator + boardId + File.separator + decodeFileName);
 
-            log.info("file: " + file);
-
             HttpHeaders header = new HttpHeaders();
 
             header.add("Content-Type", Files.probeContentType(file.toPath()));
@@ -105,10 +103,6 @@ public class BoardApiController {
                     }
                 }
             }
-        }
-
-        for (BoardJsonDTO board : boardList) {
-            log.info("board={}",board.toString());
         }
 
         return new ResponseEntity<>(new ValidateDTO<>(1, "BoardListApi", boardList), HttpStatus.OK);

@@ -1,6 +1,7 @@
 package project.myinstagram.entity;
 
 import lombok.*;
+import project.myinstagram.dto.LikeDTO;
 
 import javax.persistence.*;
 
@@ -29,4 +30,12 @@ public class Likes {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
+
+    public LikeDTO toDTO(){
+        return LikeDTO.builder()
+                .id(this.id)
+                .boardId(this.board.getId())
+                .userId(this.user.getId())
+                .build();
+    }
 }

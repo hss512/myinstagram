@@ -28,10 +28,10 @@ public class Board extends BaseEntity{
     @JoinColumn(name = "user_id")
     private User user;
 
-    @OneToMany(mappedBy = "board")
+    @OneToMany(mappedBy = "board", cascade = CascadeType.ALL)
     private List<Likes> likesList = new ArrayList<>();;
 
-    @OneToMany(mappedBy = "replyBoard")
+    @OneToMany(mappedBy = "replyBoard", cascade = CascadeType.ALL)
     private List<Reply> replyList = new ArrayList<>();
 
     public BoardJsonDTO toJsonDTO(){

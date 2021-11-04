@@ -35,7 +35,6 @@ public class UserController {
                            Model model){
 
         SignUpDTO pageUserDTO = userRepository.findById(id).get().toSignUpDTO().pageUserDTO();
-        /*List<Subscribe> subscribeList = subscribeService.getSubscribeList(pageUserDTO.getId());*/
         List<Subscribe> subscribeList = subscribeRepository.findAllByFromUserId(pageUserDTO.getId());
         List<BoardJsonDTO> boardList = boardService.getMyBoardList(id);
         int followCheck = subscribeService.followCheck(id, userDetails.getUserDTO().getId().toString());
