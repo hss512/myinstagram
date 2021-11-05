@@ -3,7 +3,6 @@ package project.myinstagram.dto.board;
 import lombok.*;
 import project.myinstagram.dto.ReplyDTO;
 import project.myinstagram.dto.user.UserDTO;
-import project.myinstagram.entity.Likes;
 
 import java.time.LocalDateTime;
 import java.util.List;

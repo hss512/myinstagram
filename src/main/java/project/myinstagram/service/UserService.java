@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import project.myinstagram.dto.user.SignUpDTO;
+import project.myinstagram.dto.user.UserDTO;
 import project.myinstagram.entity.User;
 import project.myinstagram.repository.user.UserRepository;
 
@@ -17,6 +18,8 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -103,5 +106,22 @@ public class UserService {
         }
 
         return uploadFilename;
+    }
+
+    public List<UserDTO> getUserList(String searchText, Long id) {
+
+        User findUser = userRepository.findByUsername(searchText);
+
+        if (findUser == null){
+            return null;
+        }
+
+        UserDTO userDTO = findUser.toDTO();
+
+        List<UserDTO> userDTOList = new ArrayList<>();
+
+        userDTOList.add(userDTO);
+
+        return userDTOList;
     }
 }

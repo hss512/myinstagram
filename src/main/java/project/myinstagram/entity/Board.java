@@ -44,6 +44,7 @@ public class Board extends BaseEntity{
                 .likeCount(this.likesList.size())
                 .replyList(this.replyList.stream().map(Reply::toViewDTO).collect(Collectors.toList()))
                 /*.likesList(this.likesList)*/
+                .createdDate(this.createdDate)
                 .build();
     }
 }

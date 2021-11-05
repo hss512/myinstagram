@@ -5,7 +5,7 @@ import com.querydsl.core.Tuple;
 import com.querydsl.core.types.ExpressionUtils;
 import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import lombok.extern.log4j.Log4j2;
+import org.hibernate.Hibernate;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -20,6 +20,7 @@ import javax.persistence.EntityManager;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static project.myinstagram.entity.QBoard.board;
 import static project.myinstagram.entity.QLikes.*;
@@ -27,7 +28,6 @@ import static project.myinstagram.entity.QReply.*;
 import static project.myinstagram.entity.QSubscribe.subscribe;
 import static project.myinstagram.entity.QUser.*;
 
-@Log4j2
 public class BoardCustomRepositoryImpl implements BoardCustomRepository{
 
     private final JPAQueryFactory queryFactory;
@@ -39,50 +39,24 @@ public class BoardCustomRepositoryImpl implements BoardCustomRepository{
     @Override
     public Page<BoardJsonDTO> getBoardList(Long id, Pageable pageable) {
 
-        log.info("=========================QueryResults Start=================================");
         QueryResults<Board> boardResult = queryFactory
                 .select(board)
                 .from(board)
-                .where(board.user.id.eq(id).or(board.user.id.eq(subscribe.toUser.id)))
+                .leftJoin(subscribe).on(subscribe.fromUser.id.eq(id))
                 .leftJoin(board.replyList, reply)
                 .leftJoin(board.likesList, likes)
-                .leftJoin(subscribe).on(subscribe.fromUser.id.eq(id))
+                .where(board.user.id.eq(id).or(board.user.id.eq(subscribe.toUser.id)))
                 .distinct()
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .orderBy(board.createdDate.desc())
                 .fetchResults();
-        /*QueryResults<Board> boardResult = queryFactory
-                .selectFrom(board)
-                .join(board.replyList)
-                .join(board.likesList)
-                .join(subscribe).on(subscribe.fromUser.id.eq(id))
-                .where(board.user.id.eq(id).or(board.user.id.eq(subscribe.toUser.id))*//*.or(board.user.id.eq(subscribe.toUser.id))*//*)
-                *//*.leftJoin(subscribe).on(subscribe.fromUser.id.eq(id))*//*
-                .distinct()
-                .offset(pageable.getOffset())
-                .limit(pageable.getPageSize())
-                .orderBy(board.createdDate.desc())
-                .fetchResults();*/
-        log.info("=========================QueryResults End=================================");
 
-
-        List<Board> boardResults = boardResult.getResults();
-
-        List<BoardJsonDTO> boardList = new ArrayList<>();
-
-        log.info("=========================for Start=================================");
-        for (Board board : boardResults) {
-            Collections.reverse(board.getReplyList());
-            BoardJsonDTO boardDTO = board.toJsonDTO();
-            boardDTO.setCreatedDate(board.createdDate);
-            boardList.add(boardDTO);
-        }
-        log.info("=========================for end=================================");
+        List<BoardJsonDTO> boardResults = boardResult.getResults().stream().map(Board::toJsonDTO).collect(Collectors.toList());
 
         long total = boardResult.getTotal();
 
-        return new PageImpl<>(boardList, pageable, total);
+        return new PageImpl<>(boardResults, pageable, total);
     }
 
     @Override

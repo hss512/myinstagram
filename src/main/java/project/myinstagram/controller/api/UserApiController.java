@@ -13,6 +13,7 @@ import org.springframework.validation.FieldError;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import project.myinstagram.dto.user.UserDTO;
 import project.myinstagram.principal.CustomUserDetails;
 import project.myinstagram.dto.user.SignUpDTO;
 import project.myinstagram.dto.ValidateDTO;
@@ -23,6 +24,7 @@ import java.io.IOException;
 import java.net.URLDecoder;
 import java.nio.file.Files;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -100,5 +102,18 @@ public class UserApiController {
             }
         }
         return image;
+    }
+
+    @GetMapping("/search/{searchText}")
+    public ResponseEntity<?> getUserList(@PathVariable("searchText") String searchText,
+                                         @AuthenticationPrincipal CustomUserDetails userDetails){
+
+        List<UserDTO> userList = userService.getUserList(searchText, userDetails.getUserDTO().getId());
+
+        if(userList != null) {
+            return new ResponseEntity<>(new ValidateDTO<>(1, "성공", "userList"), HttpStatus.OK);
+        }else{
+            return new ResponseEntity<>(new ValidateDTO<>(0, "검색 결과가 없습니다", null), HttpStatus.OK);
+        }
     }
 }

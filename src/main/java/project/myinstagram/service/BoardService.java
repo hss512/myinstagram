@@ -127,7 +127,30 @@ public class BoardService {
 
     public Page<BoardJsonDTO> getBoardList(Long id, Pageable pageable){
 
-        return boardRepository.getBoardList(id, pageable);
+        Page<BoardJsonDTO> boardList = boardRepository.getBoardList(id, pageable);
+
+        for (BoardJsonDTO boardDTO : boardList) {
+
+            LocalDateTime nowTime = LocalDateTime.now();
+
+            LocalDateTime createdDate = boardDTO.getCreatedDate();
+
+            Duration timeBetween = Duration.between(createdDate, nowTime);
+
+            long seconds = timeBetween.getSeconds();
+
+            if(seconds/60 == 0){
+                boardDTO.setTime("방금 전"); // 방금 전
+            }else if((seconds/60)/60 == 0){
+                boardDTO.setTime(seconds/60 + "분 전"); // x분 전
+            }else if(((seconds/60)/60)/24 == 0){
+                boardDTO.setTime((seconds/60)/60 + "시간 전"); // x 시간 전
+            }else if(((seconds/60)/60)/24 > 0){
+                boardDTO.setTime(((seconds/60)/60)/24 + 1 + "일 전"); // x일 전
+            }
+        }
+
+        return boardList;
     }
 
     public Page<BoardJsonDTO> getExploreBoard(Pageable pageable) {
@@ -158,9 +181,9 @@ public class BoardService {
         }else if((seconds/60)/60 == 0){
             boardDTO.setTime(seconds/60 + 1 + "분 전"); // x분 전
         }else if(((seconds/60)/60)/24 == 0){
-            boardDTO.setTime((seconds/60)/60 + 1 + "시간 전"); // x 시간 전
+            boardDTO.setTime((seconds/60)/60 + "시간 전"); // x 시간 전
         }else if(((seconds/60)/60)/24 > 0){
-            boardDTO.setTime(((seconds/60)/60)/24 + 1 + "일 전"); // x일 전
+            boardDTO.setTime(((seconds/60)/60)/24 + "일 전"); // x일 전
         }
 
         return boardDTO;

@@ -87,6 +87,11 @@ function getStoryItem(data) {
 		'<div id="storyCommentList-'+ boardId +'">\n' +
 		reply+
 		'</div>'+
+		'<div class="betweenTime">\n' +
+		'<time class="betweenTime-time">\n' +
+		data.time +
+		'</time>\n' +
+		'</div>' +
 		'<div class="sl__item__input">\n' +
 		'<input type="text" placeholder="댓글 달기..." id="storyCommentInput-'+ boardId +'" />\n' +
 		'<button type="button" onClick="addComment('+ boardId +')">게시</button>\n' +
