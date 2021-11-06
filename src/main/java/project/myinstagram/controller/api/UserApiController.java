@@ -108,10 +108,10 @@ public class UserApiController {
     public ResponseEntity<?> getUserList(@PathVariable("searchText") String searchText,
                                          @AuthenticationPrincipal CustomUserDetails userDetails){
 
-        List<UserDTO> userList = userService.getUserList(searchText, userDetails.getUserDTO().getId());
+        List<UserDTO> userList = userService.getUserList(searchText);
 
         if(userList != null) {
-            return new ResponseEntity<>(new ValidateDTO<>(1, "성공", "userList"), HttpStatus.OK);
+            return new ResponseEntity<>(new ValidateDTO<>(1, "성공", userList), HttpStatus.OK);
         }else{
             return new ResponseEntity<>(new ValidateDTO<>(0, "검색 결과가 없습니다", null), HttpStatus.OK);
         }

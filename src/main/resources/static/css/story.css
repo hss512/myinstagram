@@ -221,9 +221,9 @@ span b{
 .sl__item__contents__comment a:hover {
   text-decoration: underline;
 }
-.sl__item__header{
+/*.sl__item__header{
   border-bottom: 1px solid #dbdbdb;
-}
+}*/
 .sl__item__header a{
   text-align: center;
   text-decoration: none;

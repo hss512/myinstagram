@@ -21,6 +21,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -108,20 +109,14 @@ public class UserService {
         return uploadFilename;
     }
 
-    public List<UserDTO> getUserList(String searchText, Long id) {
+    public List<UserDTO> getUserList(String searchText) {
 
-        User findUser = userRepository.findByUsername(searchText);
+        List<User> userList = userRepository.findByUsernameLike("%" + searchText + "%");
 
-        if (findUser == null){
+        if (userList == null){
             return null;
         }
 
-        UserDTO userDTO = findUser.toDTO();
-
-        List<UserDTO> userDTOList = new ArrayList<>();
-
-        userDTOList.add(userDTO);
-
-        return userDTOList;
+        return userList.stream().map(User::toDTO).collect(Collectors.toList());
     }
 }
