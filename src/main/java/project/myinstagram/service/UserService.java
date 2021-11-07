@@ -11,16 +11,19 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import project.myinstagram.dto.user.SignUpDTO;
 import project.myinstagram.dto.user.UserDTO;
+import project.myinstagram.entity.Subscribe;
 import project.myinstagram.entity.User;
+import project.myinstagram.repository.subscribe.SubscribeRepository;
 import project.myinstagram.repository.user.UserRepository;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.UUID;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 @Service
@@ -29,6 +32,7 @@ import java.util.stream.Collectors;
 public class UserService {
 
     private final UserRepository userRepository;
+    private final SubscribeRepository subscribeRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Value("${file.path}")
@@ -109,14 +113,24 @@ public class UserService {
         return uploadFilename;
     }
 
-    public List<UserDTO> getUserList(String searchText) {
+    public List<UserDTO> getUserList(String searchText, Long userId) {
 
-        List<User> userList = userRepository.findByUsernameLike("%" + searchText + "%");
+        List<UserDTO> userList = userRepository.findByUsernameLikeOrNameLike("%" + searchText + "%", "%" + searchText + "%").stream().map(User::toDTO).collect(Collectors.toList());
+
+        List<UserDTO> subList = subscribeRepository.findAllByFromUserId(userId).stream().map(Subscribe::getToUser).map(User::toDTO).collect(Collectors.toList());
+
+        List<UserDTO> sortedList = userList.stream()
+                .filter(userDTO -> subList.stream().anyMatch(Predicate.isEqual(userDTO)))
+                .collect(Collectors.toList());
+
+        sortedList.addAll(userList.stream()
+                .filter(userDTO -> subList.stream().noneMatch(Predicate.isEqual(userDTO)))
+                .collect(Collectors.toList()));
 
         if (userList == null){
             return null;
         }
 
-        return userList.stream().map(User::toDTO).collect(Collectors.toList());
+        return sortedList;
     }
 }

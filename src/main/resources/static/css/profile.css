@@ -336,6 +336,7 @@ body{
   display: none;
   align-items: center;
   justify-content: center;
+  z-index: 4
 }
 .modal-board .modal-board-close{
   position: fixed;

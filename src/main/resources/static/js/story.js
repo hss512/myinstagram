@@ -10,12 +10,31 @@ function storyLoad() {
 			console.log(data)
 			$("#storyList").append(getStoryItem(data));
 		})
+		$(document).ready(function() {
+			if (sessionStorage.scrollTop !== 0) {
+				$(window).scrollTop(sessionStorage.scrollTop);
+			}
+			sessionStorage.scrollTop = 0;
+		});
 	}).fail(error=>{
 		console.log(error)
 	});
 }
 
 storyLoad();
+
+// (2) 스토리 스크롤 페이징하기
+$(window).scroll(() => {
+
+	let scroll = $(window).scrollTop() - ($(document).height() - $(window).height())
+
+	/*console.log(scroll)*/
+
+	if(scroll < -499 && scroll > -501){
+		page++;
+		storyLoad();
+	}
+});
 
 function getStoryItem(data) {
 
@@ -43,7 +62,7 @@ function getStoryItem(data) {
 		})
 	}else{
 		reply += '<div class="sl__item__contents__comment" id="moreComment">'+
-		'<a href="javascript:void(0)" id="href_direct_'+ boardId +'" onclick="boardModalOpen('+ boardId +')">'+
+		'<a href="javascript:void(0)" id="href_direct_'+ boardId +'" onclick="boardModalOpen('+ boardId + ')">'+
 		'<span>댓글 '+ data.replyList.length + '개 모두 보기</span>'+
 		'</a>'+
 		'</div>';
@@ -102,20 +121,6 @@ function getStoryItem(data) {
 	return list;
 }
 
-// (2) 스토리 스크롤 페이징하기
-$(window).scroll(() => {
-
-	let scroll = $(window).scrollTop() - ($(document).height() - $(window).height())
-
-	console.log(scroll)
-
-	if(scroll < -499 && scroll > -501){
-		page++;
-		storyLoad();
-	}
-});
-
-
 // (3) 좋아요, 안좋아요
 function toggleLike(boardId) {
 	let likeIcon = $("#storyLikeIcon-" + boardId);
@@ -154,7 +159,7 @@ function toggleLike(boardId) {
 	}
 }
 
-function boardModalOpen(boardId, userId) {
+function boardModalOpen(boardId) {
 
 	$(".modal-board").css("display", "flex");
 	$("body").css("overflow", "hidden")
@@ -395,9 +400,8 @@ function modalToggleLike(boardId) {
 }
 
 function modalClose() {
-	$("body").css("overflow", '')
-	/*$(".header").css("overflow", '')
-	$(".modal-board").css("display", "none");*/
-	document.location.reload(true);
 
+	sessionStorage.scrollTop = $(window).scrollTop()
+
+	location.reload();
 }

@@ -3,12 +3,15 @@ let oldText;
 $(".search-input").bind("change keyup paste", function (){
 
     let input = $(".search-input");
-    let text = input.val()
+    let text = input.val().replace(/\s/gi, "")
     input.attr("value", text)
 
     if(text !== oldText && text !== ""){
         console.log(text)
         searchAjax(text);
+    }
+    if(text === ""){
+        $(".searchResult-item").parent("div").remove();
     }
 
     oldText = text;

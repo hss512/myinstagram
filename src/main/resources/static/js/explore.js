@@ -19,13 +19,24 @@ function getAllBoardList(){
 
             $(".tab-1-content-inner").append(list);
         })
-        page++;
     }).fail(error=>{
         console.log(error, "getAllBoardList Api error");
     });
 }
 
 getAllBoardList();
+
+$(window).scroll(() => {
+
+    let scroll = $(window).scrollTop() - ($(document).height() - $(window).height())
+
+    console.log(scroll)
+
+    if(scroll < 1 && scroll > -1){
+        page++;
+        getAllBoardList();
+    }
+});
 
 function boardModalOpen(boardId, userId) {
 
