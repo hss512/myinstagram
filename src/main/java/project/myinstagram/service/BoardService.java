@@ -188,4 +188,14 @@ public class BoardService {
 
         return boardDTO;
     }
+
+    @Transactional
+    public void deleteBoard(Long boardId, Long userId){
+        Board findBoard = boardRepository.findById(boardId).get();
+        if(findBoard.getUser().getId().equals(userId)) {
+            boardRepository.delete(findBoard);
+        }else{
+            log.info("deleteBoard 오류");
+        }
+    }
 }

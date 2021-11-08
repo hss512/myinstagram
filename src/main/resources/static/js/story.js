@@ -1,38 +1,60 @@
 let page = 0;
-
+console.log("reload ",sessionStorage.reload)
+console.log("scrollTop ",sessionStorage.scrollTop)
+console.log("page ",sessionStorage.page)
 // (1) 스토리 로드하기
-function storyLoad() {
+function storyLoad(i) {
+	console.log("storyLoad() ", i)
 	$.ajax({
-		url: "api/board?page=" + page,
+		url: "api/board?page=" + i,
+		async : false,
 		dataType: "json"
 	}).done(res=>{
+		if(res.data.content.length === 0){
+			page--;
+			sessionStorage.page = page;
+		}
+		console.log(res.data.content)
 		res.data.content.forEach((data)=>{
-			console.log(data)
 			$("#storyList").append(getStoryItem(data));
+			$(function() {
+				if (sessionStorage.getItem("reload") == 1) {
+					$(window).scrollTop(sessionStorage.getItem("scrollTop"));
+					sessionStorage.reload = 0;
+				}
+			});
 		})
-		$(document).ready(function() {
-			if (sessionStorage.scrollTop !== 0) {
-				$(window).scrollTop(sessionStorage.scrollTop);
-			}
-			sessionStorage.scrollTop = 0;
-		});
 	}).fail(error=>{
 		console.log(error)
 	});
 }
 
-storyLoad();
+$(function (){
+	if(sessionStorage.getItem("reload") == 0 || sessionStorage.getItem("reload") == undefined){
+		sessionStorage.page = 0;
+		console.log("storyLoad 호출")
+		storyLoad(0);
+	}else{
+		console.log("document page ", sessionStorage.getItem("page"))
+		for (let i = 0; i <= sessionStorage.getItem("page"); i++) {
+			console.log("storyLoad 호출")
+			storyLoad(i)
+			page = sessionStorage.getItem("page")
+		}
+	}
+})
+
+/*storyLoad();*/
 
 // (2) 스토리 스크롤 페이징하기
 $(window).scroll(() => {
 
 	let scroll = $(window).scrollTop() - ($(document).height() - $(window).height())
 
-	/*console.log(scroll)*/
-
-	if(scroll < -499 && scroll > -501){
+	if(scroll < 1 && scroll > -1){
 		page++;
-		storyLoad();
+		sessionStorage.page = page;
+		storyLoad(sessionStorage.getItem("page"));
 	}
 });
 
@@ -62,10 +84,10 @@ function getStoryItem(data) {
 		})
 	}else{
 		reply += '<div class="sl__item__contents__comment" id="moreComment">'+
-		'<a href="javascript:void(0)" id="href_direct_'+ boardId +'" onclick="boardModalOpen('+ boardId + ')">'+
-		'<span>댓글 '+ data.replyList.length + '개 모두 보기</span>'+
-		'</a>'+
-		'</div>';
+			'<a href="javascript:void(0)" id="href_direct_'+ boardId +'" onclick="boardModalOpen('+ boardId + ')">'+
+			'<span>댓글 '+ data.replyList.length + '개 모두 보기</span>'+
+			'</a>'+
+			'</div>';
 	}
 
 	let likeCheck;
@@ -402,6 +424,7 @@ function modalToggleLike(boardId) {
 function modalClose() {
 
 	sessionStorage.scrollTop = $(window).scrollTop()
-
+	sessionStorage.reload = 1;
+	sessionStorage.page = page;
 	location.reload();
 }

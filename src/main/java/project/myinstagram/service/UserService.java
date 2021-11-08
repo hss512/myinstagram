@@ -127,6 +127,8 @@ public class UserService {
                 .filter(userDTO -> subList.stream().noneMatch(Predicate.isEqual(userDTO)))
                 .collect(Collectors.toList()));
 
+
+
         if (userList == null){
             return null;
         }
