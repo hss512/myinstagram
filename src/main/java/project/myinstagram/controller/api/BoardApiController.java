@@ -39,7 +39,6 @@ public class BoardApiController {
 
     private final LikeService likeService;
 
-    private final ReplyService replyService;
 
     @GetMapping("/api/board/image")
     public ResponseEntity<byte[]> getImage(String username, String fileName, String boardId){
@@ -50,6 +49,8 @@ public class BoardApiController {
             String decodeFileName = URLDecoder.decode(fileName, "UTF-8");
 
             File file = new File(uploadPath + username + File.separator + boardId + File.separator + decodeFileName);
+
+            log.info("file={}", file);
 
             HttpHeaders header = new HttpHeaders();
 

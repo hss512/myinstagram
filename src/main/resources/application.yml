@@ -12,15 +12,13 @@ spring:
       hibernate:
         default_batch_fetch_size: 10
         format_sql: true
-#        use_sql_comments: true
     open-in-view: true
+
+  thymeleaf:
+    prefix: classpath:/templates/
 
   profiles:
     active: local
-
-#  jackson:
-#    serialization:
-#      FAIL_ON_EMPTY_BEANS: false
 
   servlet:
     multipart:
